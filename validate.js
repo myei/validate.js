@@ -22,38 +22,59 @@
  *  grupo (clase + required), individuales, o simplemente todos los campos de una página
  * 	con el atributo 'required'
  *
- *												@author: git@github.com:m_yei/validate
+ *												@author: https://github.com/myei/Validate
  */
 var Validate = function () {
+
+	var options = {
+		type: 'all',
+		group: '',
+		required: true,
+		warn: true,
+		debug: false
+	};
 
 	var letter_only = /^[a-zA-Z_\-]+$/;
 
 	var letters_spaces = /^[A-Za-z ]+$/;
 
-	var itsOk = function (request) {
-		var status = false, target = 'input[required], select[required], textarea[required]', defaults = {};
+	document.styleSheets[0].addRule('.validate-warn', 'border-color: red');
+
+	var itsOk = function (user_options) {
+		var status = true, current, target = 'input[required], select[required], textarea[required]';
 
 		try {
-			defaults.type = 'all';
-			defaults.group = '';
-			defaults.required = true;
+			options = Object.assign(options, user_options);
 
-			request = Object.assign(defaults, request);
-
-			target = request.type === 'group' ? request.required ? '.' + request.group + '[required]' : '.' + request.group : target;
+			target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : target;
 
 			jQuery(target).each(function(index, el) {
-				status = Validate.field(el);
+				current = Validate.field(el);
 
-				if (!status)
-					return false;
+				if (!current) 
+					status = current;
+
+				addWarn(el, !current);
 			});
 
 		} catch (e) {
-			// console.log('Excepción validando segun solicitud: ' + JSON.stringify(request) + ' e: ' + e);
+			if (options.debug)
+				console.log('Excepción validando segun solicitud: ' + JSON.stringify(options) + ' e: ' + e);
 		}
 
 		return status;
+	};
+
+	var addWarn = function (el, show) {
+		if (options.warn && show) {
+			var aux = parseInt(jQuery(el).css('margin-left'));
+			jQuery(el).addClass('validate-warn').animate({ marginLeft: (aux - 10) + 'px' }, 100)
+												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
+												.animate({ marginLeft: (aux - 10) + 'px' }, 100)
+												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
+												.animate({ marginLeft: aux + 'px' }, 100);
+		} else 
+			jQuery(el).removeClass('validate-warn');
 	};
 
 	var email = function (text) {
@@ -72,7 +93,8 @@ var Validate = function () {
 
 			itsOk = true;
 		} catch (e) {
-			// console.log('Excepción validando email en: ' + flag + ' e: ' + e);
+			if (options.debug)
+				console.log('Excepción validando email en: ' + flag + ' e: ' + e);
 		}
 
 		return itsOk;
@@ -93,8 +115,10 @@ var Validate = function () {
 				itsOk = false;
 
 		} catch (e) {
-			// console.log('Excepción validando campo de texto: ' + e);
-			// console.log(e);
+			if (options.debug) {
+				console.log('Excepción validando campo de texto: ' + e);
+				console.log(el);
+			}
 		}
 
 		return itsOk;
@@ -110,6 +134,7 @@ var Validate = function () {
 				case 'text':
 				case 'password':
 				case 'select-one':
+				case 'textarea':
 					itsOk = Validate.text(el);
 					break;
 
@@ -126,25 +151,27 @@ var Validate = function () {
 
 
 		} catch (e) {
-			// console.log('Excepción validando campo: ' + e);
-			// console.log(el);
+			if (options.debug) {
+				console.log('Excepción validando campo: ' + e);
+				console.log(el);
+			}
 		}
 
 		return itsOk;
 	};
 
 	return {
-		itsOk: function () {
-			return itsOk();
+		itsOk: function (options) {
+			return itsOk(options);
 		},
-		email: function () {
-			return email();
+		email: function (text) {
+			return email(text);
 		},
-		text: function () {
-			return text();
+		text: function (el) {
+			return text(el);
 		},
-		field: function () {
-			return field();	
+		field: function (el) {
+			return field(el);	
 		}
 	};
 
