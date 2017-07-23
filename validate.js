@@ -22,6 +22,11 @@
  *  grupo (clase + required), individuales, o simplemente todos los campos de una página
  * 	con el atributo 'required'
  *
+ *	También permite validaciones 'en vivo', de pulsaciones de teclas:
+ *		- alphabetic
+ *		- numeric
+ *		- international_phone
+ *
  *												@author: https://github.com/myei/Validate
  */
 var Validate = function () {
@@ -34,11 +39,16 @@ var Validate = function () {
 		debug: false
 	};
 
-	var letter_only = /^[a-zA-Z_\-]+$/;
+	var regs = {
+		letters_only: /^[a-zA-Z_\-]+$/,
+		letters_spaces: /^[A-Za-z ]+$/,
+		numbers_only: /^[0-9_\-]+$/,
+		numbers_spaces: /^[0-9 ]+$/
+	};
 
-	var letters_spaces = /^[A-Za-z ]+$/;
 
-	document.styleSheets[0].addRule('.validate-warn', 'border-color: red');
+
+	jQuery('<style>.validate-warn { border-color: red; }</style>').appendTo('head');
 
 	var itsOk = function (user_options) {
 		var status = true, current, target = 'input[required], select[required], textarea[required]';
@@ -108,9 +118,9 @@ var Validate = function () {
 
 			if ((el.data('min') && el.val().length < el.data('min')) || (el.data('max') && el.val().length > el.data('max')) || 
 
-				(el.data('numbers') && isNaN(el.val())) || (el.data('letters') && !letter_only.test(el.val())) || 
+				(el.data('numbers') && isNaN(el.val())) || (el.data('letters') && !regs.letters_only.test(el.val())) || 
 
-				(el.data('letters-spaces') && !letters_spaces.test(el.val())) || el.val() === null || el.val().length === 0)
+				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || el.val() === null || el.val().length === 0)
 
 				itsOk = false;
 
@@ -160,6 +170,63 @@ var Validate = function () {
 		return itsOk;
 	};
 
+	var alphabetic = function (e) {
+		return !(e.keyCode != 8 && (e.keyCode < 69 || e.keyCode > 90));
+	};
+
+	var numeric = function (e) {
+		return !(e.keyCode != 8 && !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)));
+	};
+
+	var international_phone = function (e) {
+		/**
+		 * VALIDACIÓN NBX<phonenumber>
+		 *  N > 1
+		 *  B = 0, 1, 2
+		 *  X = 0 - 9
+		 */
+		if (!numeric(e) || jQuery(this).val().length === 10 ||
+
+			(jQuery(this).val().length === 0 && (e.keyCode == 96 || e.keyCode == 48 || e.keyCode == 97 || e.keyCode == 49)) ||
+
+			jQuery(this).val().length === 1 && ((e.keyCode >= 99 && e.keyCode <= 105)  || (e.keyCode >=51 && e.keyCode <= 57)))
+
+			return false;	
+	};
+
+	var ip = function (text) {
+		var itsOk = true, flag = text;
+
+		try {
+			text = text.split('.');
+
+			if (text.length < 4)
+				return false;
+
+			text.forEach(function (i) {
+				if (!regs.numbers_only.test(i) || parseInt(i) > 255)
+					itsOk = false;
+			});
+
+		} catch (e) {
+			if (options.debug)
+				console.log('Excepción validando ip en: ' + flag + ' e: ' + e);
+		}
+
+		return itsOk;
+	};
+
+	var live = {
+		alphabetic: alphabetic,
+		numeric: numeric,
+		international_phone: international_phone
+	};
+
+	var addLive = function (role, target) {
+		target = typeof target === 'undefined' ? '.validate-' + role : '.' + target;
+		jQuery(target).keydown(live[role]);
+	};
+
 	return {
 		itsOk: function (options) {
 			return itsOk(options);
@@ -172,6 +239,12 @@ var Validate = function () {
 		},
 		field: function (el) {
 			return field(el);	
+		},
+		ip: function (text) {
+			return ip(text);	
+		},
+		addLive: function (role, target) {
+			return addLive(role, target);	
 		}
 	};
 
