@@ -22,11 +22,6 @@
  *  grupo (clase + required), individuales, o simplemente todos los campos de una página
  * 	con el atributo 'required'
  *
- *	También permite validaciones 'en vivo', de pulsaciones de teclas:
- *		- alphabetic
- *		- numeric
- *		- international_phone
- *
  *												@author: https://github.com/myei/Validate
  */
 var Validate = function () {
@@ -145,6 +140,7 @@ var Validate = function () {
 				case 'password':
 				case 'select-one':
 				case 'textarea':
+				case 'hidden':
 					itsOk = Validate.text(el);
 					break;
 
