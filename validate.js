@@ -31,7 +31,9 @@ var Validate = function () {
 		group: '',
 		required: true,
 		warn: true,
-		debug: false
+		debug: false,
+		lang: 'translateJs',
+		descriptions: true
 	};
 
 	var regs = {
@@ -41,10 +43,15 @@ var Validate = function () {
 		numbers_spaces: /^[0-9 ]+$/
 	};
 
+	var params = [
+		'min',
+		'max',
+		'numbers',
+		'letters',
+		'lettersSpaces'
+	];
 
-
-	jQuery('<style>.validate-warn { border-color: red; }</style>').appendTo('head');
-
+	jQuery('<style>.validate-warn { border-color: red; } .validate-warn-description { color: red; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
 	var itsOk = function (user_options) {
 		var status = true, current, target = 'input[required], select[required], textarea[required]';
 
@@ -52,6 +59,8 @@ var Validate = function () {
 			options = Object.assign(options, user_options);
 
 			target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : target;
+
+			setLang(options.lang);
 
 			jQuery(target).each(function(index, el) {
 				current = Validate.field(el);
@@ -70,6 +79,10 @@ var Validate = function () {
 		return status;
 	};
 
+	var setLang = function (_lang) {
+		options.lang = (_lang === 'translateJs') ? Translate.get('validateJs') : typeof _lang === 'object' ? _lang : window[LANG].validateJs;
+	};
+
 	var addWarn = function (el, show) {
 		if (options.warn && show) {
 			var aux = parseInt(jQuery(el).css('margin-left'));
@@ -78,8 +91,22 @@ var Validate = function () {
 												.animate({ marginLeft: (aux - 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
 												.animate({ marginLeft: aux + 'px' }, 100);
+												
+			if (options.descriptions)
+				addDescription(el);
 		} else 
-			jQuery(el).removeClass('validate-warn');
+			jQuery(el).removeClass('validate-warn').next('.validate-warn-description').remove();
+	};
+
+	var addDescription = function (el) {
+		var msg = ' - ' + options.lang[el.type];
+
+		for (var i = params.length - 1; i >= 0; i--)
+			if (jQuery(el).data(params[i]))
+				msg += '<br /> - ' + options.lang[params[i]] + (typeof jQuery(el).data(params[i]) !== 'boolean' ? jQuery(el).data(params[i]) : '');
+
+		if (jQuery(el).next('.validate-warn-description').length === 0)
+			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
 	};
 
 	var email = function (text) {
@@ -113,7 +140,7 @@ var Validate = function () {
 
 			if ((el.data('min') && el.val().length < el.data('min')) || (el.data('max') && el.val().length > el.data('max')) || 
 
-				(el.data('numbers') && isNaN(el.val())) || (el.data('letters') && !regs.letters_only.test(el.val())) || 
+				(el.data('numbers') && !regs.numbers(el.val())) || (el.data('letters') && !regs.letters_only.test(el.val())) || 
 
 				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || el.val() === null || el.val().length === 0)
 
