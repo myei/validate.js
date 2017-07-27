@@ -52,6 +52,7 @@ var Validate = function () {
 	];
 
 	jQuery('<style>.validate-warn { border-color: red; } .validate-warn-description { color: red; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
+	
 	var itsOk = function (user_options) {
 		var status = true, current, target = 'input[required], select[required], textarea[required]';
 
@@ -80,7 +81,7 @@ var Validate = function () {
 	};
 
 	var setLang = function (_lang) {
-		options.lang = (_lang === 'translateJs') ? Translate.get('validateJs') : typeof _lang === 'object' ? _lang : window[LANG].validateJs;
+		options.lang = (_lang === 'translateJs') ? Translate.get('validateJs') : typeof _lang === 'object' ? _lang : window[_lang].validateJs;
 	};
 
 	var addWarn = function (el, show) {
