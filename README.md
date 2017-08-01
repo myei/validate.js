@@ -30,7 +30,7 @@ var opciones = {
   warn: true,	  		// Resaltado de campos incorrectos (def. true)
   debug: false,	  		// Mensajes de errores por consola (def. false)
   lang: 'translateJs',		// object, nombre de variable, (def. 'translateJs')
-  descriptions: true		// , Descripción de los campos incorrectos (def. true)
+  descriptions: true		// Descripción de los campos incorrectos (def. true)
 }
 ```
 
@@ -95,7 +95,7 @@ El campo de ```email``` debe ser especificado con su tipo:
 Validación de **ip**:
 
 ```javascript
-Validate.ip(ip); // ip: string de la ip
+Validate.ip(ip); 	// ip: string de la ip
 ```
 
 La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden especificar los criterios a través de la directiva ```data```:
