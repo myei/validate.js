@@ -29,8 +29,8 @@ var opciones = {
   required: true, 		// Sólo campos requeridos (def. true)
   warn: true,	  		// Resaltado de campos incorrectos (def. true)
   debug: false,	  		// Mensajes de errores por consola (def. false)
-  lang: 'translateJs',	// object, nombre de variable, (def. 'translateJs')
-  descriptions: true	// , Descripción de los campos incorrectos (def. true)
+  lang: 'translateJs',		// object, nombre de variable, (def. 'translateJs')
+  descriptions: true		// , Descripción de los campos incorrectos (def. true)
 }
 ```
 
