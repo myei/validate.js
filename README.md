@@ -12,7 +12,7 @@ input
 **select**
 **textarea**
 
-##Ejemplos de uso:
+## Ejemplos de uso:
 
 Objeto de opciones de usabilidad:
 ```
@@ -49,7 +49,7 @@ Inicialización en JavaScript:
 Validate.itsOk(options);	// retorna true si todo está correcto
 ```
 
-###Configuración de elementos **HTML**
+### Configuración de elementos **HTML**
 
 Usando **options.type = 'all'**
 ```
@@ -89,7 +89,8 @@ Usando **options.type = 'group-required'** y **options.group = 'validame'**
 <!-- Solamete validará los campos que contengan la clase 'validame' y contengan la directiva required='true' o simplemente required -->
 ```
 
-###Casos especiales:
+### Casos especiales:
+
 Validando campo de email:
 ```
 <input type="email" /> <!-- Los campos de email deben ser especificados como tal para una validación correcta -->
