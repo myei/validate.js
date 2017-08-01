@@ -14,7 +14,7 @@ permite validar:
 
 Este plugin necesita [jQuery](https://jquery.com/download/)
 
-```javascript
+```html
 <script src="/path/to/jquery.min.js"></script>
 <script src="/path/to/Translate.min.js"></script> <!-- Opcional -->
 <script src="/path/to/validate.min.js"></script>
@@ -68,14 +68,14 @@ Validate.itsOk(options);	// retorna true si todo está correcto
 
 Usando ```options.type = 'all'```
 
-```
+```html
 <input type="text" required />
 ```
 
 
 Usando ```options.type = 'group'``` y  ```options.group = 'validame'```
 
-```
+```html
 <input type="radio" name="genero" class="validame" />
 <input type="radio" name="genero" class="validame" />
 ```
@@ -88,7 +88,7 @@ Usando ```options.type = 'group'``` y  ```options.group = 'validame'```
 
 El campo de ```email``` debe ser especificado con su tipo:
 
-```
+```html
 <input type="email" class="validame" />
 ```
 
@@ -99,7 +99,7 @@ Validate.ip(ip); // ip: string de la ip
 ```
 
 La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden especificar los criterios a través de la directiva ```data```:
-```
+```html
 <input type="text" name="nombres" data-min="3" data-letters-spaces="true" />
 
 <input type="text" data-letters="true" />
