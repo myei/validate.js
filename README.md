@@ -12,7 +12,7 @@ permite validar:
 
 ## Ejemplos de uso:
 
-Este plugin necesita [jQuery](https://jquery.com/download/)
+Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar el uso de traducciones con mi plugin [TranslateJs](https://github.com/myei/Translate)
 
 ```html
 <script src="/path/to/jquery.min.js"></script>
