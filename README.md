@@ -94,8 +94,8 @@ El campo de ```email``` debe ser especificado con su tipo:
 
 Validación de **ip**:
 
-```
-Validate.ip(ip);	// ip: string de la ip
+```javascript
+Validate.ip(ip); // ip: string de la ip
 ```
 
 La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden especificar los criterios a través de la directiva ```data```:
@@ -115,9 +115,6 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 
 También se pueden agregar validaciones de **pulsaciones de teclas**, para que solo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
 
-> Sí ```target``` no se especifica, el valor por defecto es validate-```role```
-> ej: validate-alphabetic
-
 
 ```javascript
 Validate.addLive(role, target);
@@ -129,4 +126,5 @@ Validate.addLive('numeric');
 Validate.addLive('international_phone');
 ```
 
-es
+> Sí ```target``` no se especifica, el valor por defecto es validate-```role```
+> ej: validate-alphabetic
