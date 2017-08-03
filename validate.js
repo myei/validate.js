@@ -32,24 +32,39 @@ var Validate = function () {
 		required: true,
 		warn: true,
 		debug: false,
-		lang: 'translateJs',
+		lang: 'default',
 		descriptions: true
-	};
 
-	var regs = {
+	}, regs = {
 		letters_only: /^[a-zA-Z_\-]+$/,
 		letters_spaces: /^[A-Za-z ]+$/,
 		numbers_only: /^[0-9_\-]+$/,
 		numbers_spaces: /^[0-9 ]+$/
-	};
 
-	var params = [
+	}, modifiers = [
 		'min',
 		'max',
 		'numbers',
 		'letters',
-		'lettersSpaces'
-	];
+		'lettersSpaces',
+		'ip'
+
+	], lang = {
+		min: 'La longitud de caracters mínima para este campo es de: ',
+		max: 'La longitud de caracters máxima para este campo es de: ',
+		numbers: 'Este campo solo permite números',
+		letters: 'Este campo solo permite letras (sin espacios)',
+		lettersSpaces: 'Este campo solo permite letras',
+		email: 'Esto no es una dirección email valida, por favor verifícala',
+		text: 'Este campo es requerido y no puede estar vacío',
+		password: 'Este campo es requerido y no puede estar vacío',
+		'select-one': 'Este campo es requerido y no puede estar vacío',
+		textarea: 'Este campo es requerido y no puede estar vacío',
+		hidden: 'Este campo es requerido y no puede estar vacío',
+		checkbox: 'Este campo es requerido y no puede estar vacío',
+		radio: 'Este campo es requerido y no puede estar vacío',
+		ip: 'Esto no es una dirección ip valida, por favor verifícala'
+	};
 
 	jQuery('<style>.validate-warn { border-color: red; } .validate-warn-description { color: red; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
 	
@@ -64,7 +79,7 @@ var Validate = function () {
 			setLang(options.lang);
 
 			jQuery(target).each(function(index, el) {
-				current = Validate.field(el);
+				current = field(el);
 
 				if (!current) 
 					status = current;
@@ -81,7 +96,9 @@ var Validate = function () {
 	};
 
 	var setLang = function (_lang) {
-		options.lang = (_lang === 'translateJs') ? Translate.get('validateJs') : typeof _lang === 'object' ? _lang : window[_lang].validateJs;
+		options.lang = _lang === 'translateJs' ? Translate.get('validateJs') : typeof _lang === 'object' ? _lang : _lang === 'default' ? lang : window[_lang].validateJs;
+
+		options.lang = Object.assign(lang, options.lang);
 	};
 
 	var addWarn = function (el, show) {
@@ -102,9 +119,9 @@ var Validate = function () {
 	var addDescription = function (el) {
 		var msg = ' - ' + options.lang[el.type];
 
-		for (var i = params.length - 1; i >= 0; i--)
-			if (jQuery(el).data(params[i]))
-				msg += '<br /> - ' + options.lang[params[i]] + (typeof jQuery(el).data(params[i]) !== 'boolean' ? jQuery(el).data(params[i]) : '');
+		for (var i = modifiers.length - 1; i >= 0; i--)
+			if (jQuery(el).data(modifiers[i]))
+				msg += '<br /> - ' + options.lang[modifiers[i]] + (typeof jQuery(el).data(modifiers[i]) !== 'boolean' ? jQuery(el).data(modifiers[i]) : '');
 
 		if (jQuery(el).next('.validate-warn-description').length === 0)
 			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
@@ -143,7 +160,9 @@ var Validate = function () {
 
 				(el.data('numbers') && !regs.numbers(el.val())) || (el.data('letters') && !regs.letters_only.test(el.val())) || 
 
-				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || el.val() === null || el.val().length === 0)
+				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || !ip(el.val()) ||
+
+				el.val() === null || el.val().length === 0)
 
 				itsOk = false;
 
@@ -169,11 +188,11 @@ var Validate = function () {
 				case 'select-one':
 				case 'textarea':
 				case 'hidden':
-					itsOk = Validate.text(el);
+					itsOk = text(el);
 					break;
 
 				case 'email':
-					itsOk = Validate.email(el.value);
+					itsOk = email(el.value);
 					break;
 
 				case 'checkbox':
@@ -252,23 +271,11 @@ var Validate = function () {
 	};
 
 	return {
-		itsOk: function (options) {
-			return itsOk(options);
-		},
-		email: function (text) {
-			return email(text);
-		},
-		text: function (el) {
-			return text(el);
-		},
-		field: function (el) {
-			return field(el);	
-		},
-		ip: function (text) {
-			return ip(text);	
-		},
 		addLive: function (role, target) {
 			return addLive(role, target);	
+		},
+		itsOk: function (options) {
+			return itsOk(options);
 		}
 	};
 

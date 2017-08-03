@@ -16,28 +16,29 @@ Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar 
 
 ```html
 <script src="/path/to/jquery.min.js"></script>
-<script src="/path/to/Translate.min.js"></script> <!-- Opcional -->
+<script src="/path/to/translate.min.js"></script> <!-- Opcional -->
 <script src="/path/to/validate.min.js"></script>
 ```
 
-Definición de opciones:
+#### Definición de opciones:
 
 ```javascript
 var opciones = {
-  type: 'all', 	  		// group, group-required (def. all)
-  group: '', 	  		// Nombre de la clase del grupo
-  required: true, 		// Sólo campos requeridos (def. true)
-  warn: true,	  		// Resaltado de campos incorrectos (def. true)
-  debug: false,	  		// Mensajes de errores por consola (def. false)
-  lang: 'translateJs',		// object, nombre de variable, (def. 'translateJs')
-  descriptions: true		// Descripción de los campos incorrectos (def. true)
+  type: 'all',        // group, group-required (def. all)
+  group: '',        // Nombre de la clase del grupo
+  required: true,     // Sólo campos requeridos (def. true)
+  warn: true,       // Resaltado de campos incorrectos (def. true)
+  debug: false,       // Mensajes de errores por consola (def. false)
+  lang: 'default',      // JSON ó nombre de la variable
+  descriptions: true    // Descripción de los campos incorrectos (def. true)
 }
 ```
 
-Definición de mensajes:
+#### Personalización de mensajes:
+
+Si queremos cambiar los mensajes por defecto debemos hacerlo siguiendo la siguiente estructura:
 
 > Sí se usa **[Translate.js](https://github.com/myei/Translate)** se debe incluir este objeto en cada idioma
-> 
 
 
 ```javascript
@@ -61,7 +62,7 @@ var validateJs = {
 Inicialización en **JavaScript**:
 
 ```javascript
-Validate.itsOk(options);	// retorna true si todo está correcto
+Validate.itsOk(options);  // retorna true si todo está correcto
 ```
 
 ## Configuración de elementos **HTML**
@@ -92,22 +93,21 @@ El campo de ```email``` debe ser especificado con su tipo:
 <input type="email" class="validame" />
 ```
 
-Validación de **ip**:
+La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden ```modificadores``` a través de la directiva ```data```:
 
-```javascript
-Validate.ip(ip); 	// ip: string de la ip
-```
+> Los ```modificadores``` pueden ser usados en conjunto y los disponibles son: 
+> - ```min```: longitud mínima del campo
+> - ```max```: longitud máxima del campo
+> - ```letters```: solo permite letras
+> - ```letters-spaces```: permite letras y espacios
+> - ```numbers```: solo permite números
+> - ```ip```: permite direcciones validas
 
-La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden especificar los criterios a través de la directiva ```data```:
+
 ```html
 <input type="text" name="nombres" data-min="3" data-letters-spaces="true" />
 
-<input type="text" data-letters="true" />
-
-<input type="text" name="dni" data-numbers="true" />
-
 <textarea data-min="2" data-max="140" />
-
 ```
 
 ### Live validations
@@ -115,15 +115,14 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 
 También se pueden agregar validaciones de **pulsaciones de teclas**, para que solo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
 
+> Los ```role``` disponibles son:
+> - ```alphabetic```: solo permite letras
+> - ```numeric```: solo permite números
+> - ```international_phone```: valida los teléfonos según el formato NBXXXXXXXX
+
 
 ```javascript
 Validate.addLive(role, target);
-
-Validate.addLive('alphabetic', 'solo-letras');
-
-Validate.addLive('numeric');
-
-Validate.addLive('international_phone');
 ```
 
 > Sí ```target``` no se especifica, el valor por defecto es validate-```role```
