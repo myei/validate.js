@@ -59,13 +59,13 @@ var validateJs = {
 }
 ```
 
-Inicialización en **JavaScript**:
+#### Ejecutando validación:
 
 ```javascript
 Validate.itsOk(options);  // retorna true si todo está correcto
 ```
 
-## Configuración de elementos **HTML**
+#### Configuración de elementos **HTML**
 
 Usando ```options.type = 'all'```
 
@@ -85,7 +85,7 @@ Usando ```options.type = 'group'``` y  ```options.group = 'validame'```
 
 
 
-## Casos especiales:
+#### Casos especiales:
 
 El campo de ```email``` debe ser especificado con su tipo:
 
@@ -95,22 +95,23 @@ El campo de ```email``` debe ser especificado con su tipo:
 
 La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden ```modificadores``` a través de la directiva ```data```:
 
-> Los ```modificadores``` pueden ser usados en conjunto y los disponibles son: 
-> - ```min```: longitud mínima del campo
-> - ```max```: longitud máxima del campo
-> - ```letters```: solo permite letras
-> - ```letters-spaces```: permite letras y espacios
-> - ```numbers```: solo permite números
-> - ```ip```: permite direcciones validas
-
-
 ```html
 <input type="text" name="nombres" data-min="3" data-letters-spaces="true" />
 
+...
 <textarea data-min="2" data-max="140" />
 ```
 
-### Live validations
+> Los ```modificadores``` pueden ser usados en conjunto y los disponibles son: 
+> - ```min```: longitud mínima del campo
+> - ```max```: longitud máxima del campo
+> - ```letters```: sólo permite letras
+> - ```letters-spaces```: permite letras y espacios
+> - ```numbers```: sólo permite números
+> - ```ip```: permite direcciones válidas
+
+
+###· Live validations
 
 
 También se pueden agregar validaciones de **pulsaciones de teclas**, para que solo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
