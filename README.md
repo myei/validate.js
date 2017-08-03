@@ -2,13 +2,6 @@
 
 Este plugin permite la validación de los casos más comunes contemplando múltiples elementos sin necesidad de tenerlos dentro de un ```<form>```:
 
-permite validar:
-
-- Longitud máxima y mínima
-- Sólo letras y letras con espacios
-- Sólo números y números con espacios
-- Números de telefono internacionales
-
 
 ## Ejemplos de uso:
 
@@ -24,11 +17,11 @@ Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar 
 
 ```javascript
 var opciones = {
-  type: 'all',        // group, group-required (def. all)
-  group: '',          // Nombre de la clase del grupo
-  required: true,     // Sólo campos requeridos (def. true)
-  warn: true,         // Resaltado de campos incorrectos (def. true)
-  debug: false,       // Mensajes de errores por consola (def. false)
+  type: 'all',      // group, group-required (def. all)
+  group: '',      // Nombre de la clase del grupo
+  required: true,   // Sólo campos requeridos (def. true)
+  warn: true,     // Resaltado de campos incorrectos (def. true)
+  debug: false,     // Mensajes de errores por consola (def. false)
   lang: 'default',    // JSON ó nombre de la variable
   descriptions: true  // Descripción de los campos incorrectos (def. true)
 }
@@ -56,6 +49,7 @@ var validateJs = {
   hidden: 'Este campo es requerido y no puede estar vacío',
   checkbox: 'Este campo es requerido y no puede estar vacío',
   radio: 'Este campo es requerido y no puede estar vacío',
+  ip: 'Esto no es una dirección ip valida, por favor verifícala'
 }
 ```
 
@@ -93,7 +87,10 @@ El campo de ```email``` debe ser especificado con su tipo:
 <input type="email" class="validame" />
 ```
 
-La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden ```modificadores``` a través de la directiva ```data```:
+> Los campos ```checkbox``` y ```radio``` deben contener la propiedad ```name```
+
+
+La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden usar los ```modificadores``` a través de la directiva ```data```:
 
 ```html
 <input type="text" name="nombres" data-min="3" data-letters-spaces="true" />
@@ -111,7 +108,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```ip```: permite direcciones válidas
 
 
-### Live validations
+###· Live validations
 
 
 También se pueden agregar validaciones de **pulsaciones de teclas**, para que solo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
