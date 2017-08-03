@@ -111,7 +111,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```ip```: permite direcciones válidas
 
 
-###· Live validations
+### Live validations
 
 
 También se pueden agregar validaciones de **pulsaciones de teclas**, para que solo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
