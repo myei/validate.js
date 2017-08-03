@@ -24,11 +24,11 @@ Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar 
 
 ```javascript
 var opciones = {
-  type: 'all',      // group, group-required (def. all)
-  group: '',      // Nombre de la clase del grupo
-  required: true,   // Sólo campos requeridos (def. true)
-  warn: true,     // Resaltado de campos incorrectos (def. true)
-  debug: false,     // Mensajes de errores por consola (def. false)
+  type: 'all',        // group, group-required (def. all)
+  group: '',          // Nombre de la clase del grupo
+  required: true,     // Sólo campos requeridos (def. true)
+  warn: true,         // Resaltado de campos incorrectos (def. true)
+  debug: false,       // Mensajes de errores por consola (def. false)
   lang: 'default',    // JSON ó nombre de la variable
   descriptions: true  // Descripción de los campos incorrectos (def. true)
 }
