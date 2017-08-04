@@ -1,28 +1,8 @@
 /**
  *	Validate.js
  *
- *	Esta colección de funciones sirven para validar los siguientes campos HTML:
- *
- *		- input (text, checkbox, radio, password, email)
- *		- select
- *		- textarea
- *
- *	según una serie de parámetros que pueden personalizar el proceso de validación
- *	especificados en la propiedad data:
- *
- *		- min
- *		- max
- *		- numbers
- *		- letters only
- *		- letters and spaces
- *
- *	si ninguno de los anteriores es especificado siplemente validan vacíos
- *
- * 	Permite validacion de grupos de elementos (según clase), solo los requeridos de un
- *  grupo (clase + required), individuales, o simplemente todos los campos de una página
- * 	con el atributo 'required'
- *
- *												@author: https://github.com/myei/Validate
+ *	@author: 
+ +  	https://github.com/myei/validate.js
  */
 var Validate = function () {
 
