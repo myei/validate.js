@@ -5,7 +5,7 @@ Este plugin permite la validación de los casos más comunes contemplando múlti
 
 ## Ejemplos de uso:
 
-Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar el uso de traducciones con mi plugin [TranslateJs](https://github.com/myei/Translate)
+Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar el uso de traducciones con mi plugin [TranslateJs](https://github.com/myei/translate.js)
 
 ```html
 <script src="/path/to/jquery.min.js"></script>
@@ -31,7 +31,7 @@ var opciones = {
 
 Si queremos cambiar los mensajes por defecto debemos hacerlo siguiendo la siguiente estructura:
 
-> Sí se usa **[Translate.js](https://github.com/myei/Translate)** se debe incluir este objeto en cada idioma
+> Sí se usa **[Translate.js](https://github.com/myei/translate.js)** se debe incluir este objeto en cada idioma
 
 
 ```javascript
