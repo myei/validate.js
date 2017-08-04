@@ -140,7 +140,7 @@ var Validate = function () {
 
 				(el.data('numbers') && !regs.numbers(el.val())) || (el.data('letters') && !regs.letters_only.test(el.val())) || 
 
-				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || !ip(el.val()) ||
+				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || (el.data('ip') && !ip(el.val())) ||
 
 				el.val() === null || el.val().length === 0)
 
