@@ -2,7 +2,7 @@
  *	Validate.js
  *
  *	@author: 
- +  	https://github.com/myei/validate.js
+ *  	https://github.com/myei/validate.js
  */
 var Validate = function () {
 
@@ -21,15 +21,30 @@ var Validate = function () {
 		numbers_only: /^[0-9_\-]+$/,
 		numbers_spaces: /^[0-9 ]+$/
 
-	}, modifiers = [
-		'min',
-		'max',
-		'numbers',
-		'letters',
-		'lettersSpaces',
-		'ip'
+	}, modifiers = {
+		min: function (el) {
+			return el.data('min') ? el.val().length >= el.data('min') : true;
+		},
+		max: function (el) {
+			return el.data('max') ? el.val().length <= el.data('max') : true;
+		},
+		numbers: function (el) {
+			return el.data('numbers') ? regs.numbers(el.val()) : true;
+		},
+		letters: function (el) {
+			return el.data('letters') ? regs.letters_only.test(el.val()) : true;
+		},
+		lettersSpaces: function (el) {
+			return el.data('letters-spaces') ? regs.letters_spaces.test(el.val()) : true;
+		},
+		ip: function (el) {
+			return el.data('ip') ? ip(el.val()) : true;
+		},
+		default: function (el) {
+			return el.val().length > 0;
+		}
 
-	], lang = {
+	}, lang = {
 		min: 'La longitud de caracters mínima para este campo es de: ',
 		max: 'La longitud de caracters máxima para este campo es de: ',
 		numbers: 'Este campo solo permite números',
@@ -98,10 +113,11 @@ var Validate = function () {
 
 	var addDescription = function (el) {
 		var msg = ' - ' + options.lang[el.type];
+		var _modifiers = Object.keys(modifiers);
 
-		for (var i = modifiers.length - 1; i >= 0; i--)
-			if (jQuery(el).data(modifiers[i]))
-				msg += '<br /> - ' + options.lang[modifiers[i]] + (typeof jQuery(el).data(modifiers[i]) !== 'boolean' ? jQuery(el).data(modifiers[i]) : '');
+		for (var i = _modifiers.length - 1; i >= 0; i--)
+			if (jQuery(el).data(_modifiers[i]))
+				msg += '<br /> - ' + options.lang[_modifiers[i]] + (typeof jQuery(el).data(_modifiers[i]) !== 'boolean' ? jQuery(el).data(_modifiers[i]) : '');
 
 		if (jQuery(el).next('.validate-warn-description').length === 0)
 			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
@@ -136,21 +152,39 @@ var Validate = function () {
 		try {
 			el = jQuery(el);
 
-			if ((el.data('min') && el.val().length < el.data('min')) || (el.data('max') && el.val().length > el.data('max')) || 
-
-				(el.data('numbers') && !regs.numbers(el.val())) || (el.data('letters') && !regs.letters_only.test(el.val())) || 
-
-				(el.data('letters-spaces') && !regs.letters_spaces.test(el.val())) || (el.data('ip') && !ip(el.val())) ||
-
-				el.val() === null || el.val().length === 0)
-
-				itsOk = false;
+			for (var key in modifiers)
+				if (!modifiers[key](el)) {
+					itsOk = false;
+					break;
+				}
 
 		} catch (e) {
 			if (options.debug) {
 				console.log('Excepción validando campo de texto: ' + e);
 				console.log(el);
 			}
+		}
+
+		return itsOk;
+	};
+
+	var ip = function (text) {
+		var itsOk = true, flag = text;
+
+		try {
+			text = text.split('.');
+
+			if (text.length < 4)
+				return false;
+
+			text.forEach(function (i) {
+				if (!regs.numbers_only.test(i) || parseInt(i) > 255)
+					itsOk = false;
+			});
+
+		} catch (e) {
+			if (options.debug)
+				console.log('Excepción validando ip en: ' + flag + ' e: ' + e);
 		}
 
 		return itsOk;
@@ -215,28 +249,6 @@ var Validate = function () {
 			jQuery(this).val().length === 1 && ((e.keyCode >= 99 && e.keyCode <= 105)  || (e.keyCode >=51 && e.keyCode <= 57)))
 
 			return false;	
-	};
-
-	var ip = function (text) {
-		var itsOk = true, flag = text;
-
-		try {
-			text = text.split('.');
-
-			if (text.length < 4)
-				return false;
-
-			text.forEach(function (i) {
-				if (!regs.numbers_only.test(i) || parseInt(i) > 255)
-					itsOk = false;
-			});
-
-		} catch (e) {
-			if (options.debug)
-				console.log('Excepción validando ip en: ' + flag + ' e: ' + e);
-		}
-
-		return itsOk;
 	};
 
 	var live = {
