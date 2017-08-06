@@ -112,8 +112,7 @@ var Validate = function () {
 	};
 
 	var addDescription = function (el) {
-		var msg = ' - ' + options.lang[el.type];
-		var _modifiers = Object.keys(modifiers);
+		var msg = ' - ' + options.lang[el.type], _modifiers = Object.keys(modifiers);
 
 		for (var i = _modifiers.length - 1; i >= 0; i--)
 			if (jQuery(el).data(_modifiers[i]))
