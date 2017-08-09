@@ -29,7 +29,7 @@ var Validate = function () {
 			return el.data('max') ? el.val().length <= el.data('max') : true;
 		},
 		numbers: function (el) {
-			return el.data('numbers') ? regs.numbers(el.val()) : true;
+			return el.data('numbers') ? regs.numbers_only.test(el.val()) : true;
 		},
 		letters: function (el) {
 			return el.data('letters') ? regs.letters_only.test(el.val()) : true;
