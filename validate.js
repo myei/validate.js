@@ -58,6 +58,7 @@ var Validate = function () {
 		hidden: 'Este campo es requerido y no puede estar vacío',
 		checkbox: 'Este campo es requerido y no puede estar vacío',
 		radio: 'Este campo es requerido y no puede estar vacío',
+		file: 'Debe agregar al menos un archivo',
 		ip: 'Esto no es una dirección ip valida, por favor verifícala'
 	};
 
@@ -196,14 +197,6 @@ var Validate = function () {
 
 			switch (el.type) {
 
-				case 'text':
-				case 'password':
-				case 'select-one':
-				case 'textarea':
-				case 'hidden':
-					itsOk = text(el);
-					break;
-
 				case 'email':
 					itsOk = email(el.value);
 					break;
@@ -212,6 +205,9 @@ var Validate = function () {
 				case 'radio':
 					itsOk = jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked');
 					break;
+
+				default:
+					itsOk = text(el);
 
 			}
 
