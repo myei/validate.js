@@ -95,6 +95,18 @@ $.fn.extend({
 			target.removeClass('validate-me');
 	});
 
+	$('body').delegate('.control-live', 'click', function() {
+		var target = $(this).parent().siblings('input');
+
+		if ($(this).hasClass('badge-primary'))
+			target.off('keydown').removeClass('validate-' + $(this).data('opt'))
+		else
+			target.addClass('validate-' + $(this).data('opt'))
+
+		endisable(this);
+		Validate.addLive($(this).data('opt'));
+	});
+
 	var endisable = function (el, dis) {
 		if (!dis) {
 			if (!$(el).hasClass('badge-primary'))
