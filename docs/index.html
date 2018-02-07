@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" 
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
 		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
 		  crossorigin="anonymous">
+	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<title>Validate.js</title>
 </head>
 <body>
@@ -13,31 +15,45 @@
 	<div class="container">
 
 		<div class="row">
-			<h1>Group</h1>
+			<div class="col-md-12">
+				<h1>Validate.js Demo</h1>
+				<hr>
+			</div>
+		</div>
 
 			<div class="row">
-				<div class="col-md-3">
-					<input type="text" class="form-control validate-me">
-				</div>
-				<div class="col-md-3">
-					<input type="text" class="form-control validate-me">
-				</div>
-				<div class="col-md-3">
-					<input type="text" class="form-control validate-me">
+				<div class="col-md-4">
+					<input type="text" class="form-control validate-me" placeholder="Field 1">
+
+					<div class="toolbox text-center" style="color: #ccc; cursor: pointer;">
+						<i class="fas fa-lock control" data-opt="required"></i>
+						<i class="fas fa-lock control-in" data-opt="min"></i>
+						<i class="far fa-dot-circle control" data-opt="required"></i>
+					</div>
 				</div>
 
-				<div class="col-md-3">
-					<input type="text" class="form-control validate-me">
+				<div class="col-md-1">
+					<i class="far fa-plus-square add-input" style="font-size: 2em; color: #ccc; cursor: pointer;"></i>
+				</div>
+
+			</div>
+
+			<br>
+
+			Target: 
+
+			<div class="row">
+				<div class="col-md-6 text-center offset-md-4">
+					<button class="btn btn-default validate">Validate!</button>
 				</div>
 			</div>
 			
-		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<script src="https://raw.githubusercontent.com/myei/validate.js/master/validate.js"></script>
-	<script src="app.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://cdn.rawgit.com/myei/validate.js/master/validate.min.js"></script>
+	<script src="demo.js"></script>
 </body>
 </html>

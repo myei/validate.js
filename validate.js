@@ -60,7 +60,10 @@ var Validate = function () {
 		radio: 'Este campo es requerido y no puede estar vacío',
 		file: 'Debe agregar al menos un archivo',
 		ip: 'Esto no es una dirección ip valida, por favor verifícala'
-	};
+	},
+
+	warn_class = 'validate-warn',
+	warn_description_class = 'validate-warn-description';
 
 	jQuery('<style>.validate-warn { border-color: red; } .validate-warn-description { color: red; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
 	
@@ -69,7 +72,7 @@ var Validate = function () {
 
 		try {			
 			options = Object.assign(options, user_options);
-			jQuery('.validate-warn, .validate-warn-description').remove();
+			clean();
 
 			target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : target;
 
@@ -101,7 +104,7 @@ var Validate = function () {
 	var addWarn = function (el, show) {
 		if (options.warn && show) {
 			var aux = parseInt(jQuery(el).css('margin-left'));
-			jQuery(el).addClass('validate-warn').animate({ marginLeft: (aux - 10) + 'px' }, 100)
+			jQuery(el).addClass(warn_class).animate({ marginLeft: (aux - 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux - 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
@@ -110,7 +113,7 @@ var Validate = function () {
 			if (options.descriptions)
 				addDescription(el);
 		} else 
-			jQuery(el).removeClass('validate-warn').next('.validate-warn-description').remove();
+			jQuery(el).removeClass(warn_class).next(warn_description_class).remove();
 	};
 
 	var addDescription = function (el) {
@@ -120,7 +123,7 @@ var Validate = function () {
 			if (jQuery(el).data(_modifiers[i]))
 				msg += '<br /> - ' + options.lang[_modifiers[i]] + (typeof jQuery(el).data(_modifiers[i]) !== 'boolean' ? jQuery(el).data(_modifiers[i]) : '');
 
-		if (jQuery(el).next('.validate-warn-description').length === 0)
+		if (jQuery(el).next(warn_description_class).length === 0)
 			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
 	};
 
@@ -256,6 +259,11 @@ var Validate = function () {
 	var addLive = function (role, target) {
 		target = typeof target === 'undefined' ? '.validate-' + role : '.' + target;
 		jQuery(target).keydown(live[role]);
+	};
+
+	var clean = function () {
+		jQuery('.validate-warn').removeClass(warn_class);
+		jQuery(warn_description_class).remove();
 	};
 
 	return {
