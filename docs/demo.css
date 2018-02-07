@@ -1,0 +1,22 @@
+.add-field {
+	font-size: 2em; 
+	color: #ccc; 
+	cursor: pointer;
+	margin-top: 26px
+}
+
+.control {
+	color: #ccc;
+	cursor: pointer;
+}
+
+.badge-primary {
+	color: white !important;
+}
+
+.alert {
+	position: absolute;
+    z-index: 999999;
+    top: 21px;
+    left: 40%;
+}

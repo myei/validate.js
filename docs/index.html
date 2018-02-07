@@ -7,53 +7,95 @@
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
 		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
 		  crossorigin="anonymous">
-	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+	<link rel="stylesheet" href="https://raw.github.com/daneden/animate.css/master/animate.css">
+	<link rel="stylesheet" href="demo.css">
 	<title>Validate.js</title>
 </head>
 <body>
 
 	<div class="container">
+		<div class="alert alert-success good" role="alert" style="display: none;">
+		  Everything is perfect!
+		</div>
+
+		<div class="alert alert-danger bad" role="alert" style="display: none;">
+		  Oh no! Something wrong...
+		</div>
+
+		<br>
 
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Validate.js Demo</h1>
-				<hr>
+			</div>
+		</div>
+		
+		<hr>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="toolbox text-right">
+					<span class="badge badge-default control control-prop" data-opt="required">required</span>
+					<span class="badge badge-default control control-data control-data-in" data-opt="min">min</span>
+					<span class="badge badge-default control control-data control-data-in" data-opt="max">max</span>
+					<span class="badge badge-default control control-data" data-opt="letters">letters</span>
+					<span class="badge badge-default control control-data" data-opt="letters-spaces">letters-spaces</span>
+					<span class="badge badge-default control control-data" data-opt="numbers">numbers</span>
+					<span class="badge badge-default control control-data" data-opt="ip">ip</span>
+					<span class="badge badge-primary control join-group">join-group</span>
+				</div>
+
+				<input type="text" class="form-control validate-me" placeholder="Field 1">
+			</div>
+
+			<div class="col-md-1">
+				<i class="far fa-plus-square add-field"></i>
+			</div>
+
+		</div>
+
+		<br><br>
+
+		<div class="row">
+			<div class="col-md-6 text-center offset-md-3">
+				Target:
+				<span class="badge badge-default control set single" data-opt="target">all</span>
+				<span class="badge badge-primary control set single" data-opt="target">group</span>
+
+				<br>
+
+				Options:
+				<span class="badge badge-default control set" data-opt="required">required</span>
+				<span class="badge badge-primary control set" data-opt="warn">warn</span>
+				<span class="badge badge-primary control set" data-opt="descriptions">descriptions</span>
+				<span class="badge badge-secondary control">lang</span>
+				<span class="badge badge-secondary control">debug</span>
 			</div>
 		</div>
 
-			<div class="row">
-				<div class="col-md-4">
-					<input type="text" class="form-control validate-me" placeholder="Field 1">
+		<br>
 
-					<div class="toolbox text-center" style="color: #ccc; cursor: pointer;">
-						<i class="fas fa-lock control" data-opt="required"></i>
-						<i class="fas fa-lock control-in" data-opt="min"></i>
-						<i class="far fa-dot-circle control" data-opt="required"></i>
-					</div>
-				</div>
+		<div class="row">
+			<div class="col-md-3 text-center offset-md-4">
+				<button class="btn btn-default validate">Validate!</button>
 
-				<div class="col-md-1">
-					<i class="far fa-plus-square add-input" style="font-size: 2em; color: #ccc; cursor: pointer;"></i>
-				</div>
 
 			</div>
-
-			<br>
-
-			Target: 
-
-			<div class="row">
-				<div class="col-md-6 text-center offset-md-4">
-					<button class="btn btn-default validate">Validate!</button>
-				</div>
-			</div>
+		</div>
 			
 	</div>
+
+	<input type="hidden" id="target" value="group">
+	<input type="hidden" id="required" value="false">
+	<input type="hidden" id="warn" value="true">
+	<input type="hidden" id="descriptions" value="true">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="https://cdn.rawgit.com/myei/validate.js/master/validate.min.js"></script>
+	<!-- <script src="https://cdn.rawgit.com/myei/validate.js/master/validate.min.js"></script> -->
+	<script src="../validate.js"></script>
 	<script src="demo.js"></script>
 </body>
 </html>

@@ -62,8 +62,10 @@ var Validate = function () {
 		ip: 'Esto no es una dirección ip valida, por favor verifícala'
 	},
 
-	warn_class = 'validate-warn',
-	warn_description_class = 'validate-warn-description';
+	warn_class = '.validate-warn',
+	_warn_class = 'validate-warn',
+	warn_description_class = '.validate-warn-description';
+	_warn_description_class = 'validate-warn-description';
 
 	jQuery('<style>.validate-warn { border-color: red; } .validate-warn-description { color: red; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
 	
@@ -104,7 +106,7 @@ var Validate = function () {
 	var addWarn = function (el, show) {
 		if (options.warn && show) {
 			var aux = parseInt(jQuery(el).css('margin-left'));
-			jQuery(el).addClass(warn_class).animate({ marginLeft: (aux - 10) + 'px' }, 100)
+			jQuery(el).addClass(_warn_class).animate({ marginLeft: (aux - 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux - 10) + 'px' }, 100)
 												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
@@ -113,7 +115,7 @@ var Validate = function () {
 			if (options.descriptions)
 				addDescription(el);
 		} else 
-			jQuery(el).removeClass(warn_class).next(warn_description_class).remove();
+			jQuery(el).removeClass(_warn_class).next(_warn_description_class).remove();
 	};
 
 	var addDescription = function (el) {
@@ -123,7 +125,7 @@ var Validate = function () {
 			if (jQuery(el).data(_modifiers[i]))
 				msg += '<br /> - ' + options.lang[_modifiers[i]] + (typeof jQuery(el).data(_modifiers[i]) !== 'boolean' ? jQuery(el).data(_modifiers[i]) : '');
 
-		if (jQuery(el).next(warn_description_class).length === 0)
+		if (jQuery(el).next(_warn_description_class).length === 0)
 			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
 	};
 
@@ -262,7 +264,7 @@ var Validate = function () {
 	};
 
 	var clean = function () {
-		jQuery('.validate-warn').removeClass(warn_class);
+		jQuery(warn_class).removeClass(_warn_class);
 		jQuery(warn_description_class).remove();
 	};
 
