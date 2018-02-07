@@ -67,8 +67,9 @@ var Validate = function () {
 	var itsOk = function (user_options) {
 		var status = true, current, target = 'input[required], select[required], textarea[required]';
 
-		try {
+		try {			
 			options = Object.assign(options, user_options);
+			jQuery('.validate-warn, .validate-warn-description').remove();
 
 			target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : target;
 
