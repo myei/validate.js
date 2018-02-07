@@ -30,6 +30,9 @@
 						<span class="badge badge-default control-data" data-opt="numbers">numbers</span>
 						<span class="badge badge-default control-data" data-opt="ip">ip</span>
 						<span class="badge badge-default control join-group">join-group</span>
+						<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
+						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span>
+						<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span>
 					</div>
 
 					<input class="form-control" placeholder="field ` + node + `">
