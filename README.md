@@ -5,6 +5,8 @@ Este plugin permite la validación de los casos más comunes contemplando múlti
 
 ## Ejemplos de uso:
 
+Puedes probar el [demo](https://myei.github.io/validate.js/) con algunas de las funcionalidades listadas.
+
 Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar el uso de traducciones con mi plugin [TranslateJs](https://github.com/myei/translate.js)
 
 ```html

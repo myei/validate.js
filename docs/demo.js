@@ -10,16 +10,6 @@ $.fn.extend({
 (function(){
 
 	$('.validate').click(function() {
-		console.log({
-		type: $('#target').val(),
-		group: '',
-		required: ($('#required').val() == 'true'),
-		warn: ($('#warn').val() == 'true'),
-		debug: ($('#debug').val() == 'true'),
-		lang: 'default',
-		descriptions: ($('#descriptions').val() == 'true')
-
-	})
 		if (Validate.itsOk({
 						type: $('#target').val(), 
 						group: 'validate-me', 
