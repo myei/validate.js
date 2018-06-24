@@ -19,7 +19,8 @@ var Validate = function () {
 		letters_only: /^[a-zA-Z_\-]+$/,
 		letters_spaces: /^[A-Za-z ]+$/,
 		numbers_only: /^[0-9_\-]+$/,
-		numbers_spaces: /^[0-9 ]+$/
+		numbers_spaces: /^[0-9 ]+$/,
+		password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/
 
 	}, modifiers = {
 		min: function (el) {
@@ -40,6 +41,9 @@ var Validate = function () {
 		ip: function (el) {
 			return el.data('ip') ? ip(el.val()) : true;
 		},
+		passwd: function (el) {
+			return el.data('passwd') ? regs.password.test(el.val()) : true;
+		},
 		default: function (el) {
 			return el.val().length > 0;
 		}
@@ -53,6 +57,7 @@ var Validate = function () {
 		email: 'Esto no es una dirección email valida, por favor verifícala',
 		text: 'Este campo es requerido y no puede estar vacío',
 		password: 'Este campo es requerido y no puede estar vacío',
+		passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
 		'select-one': 'Este campo es requerido y no puede estar vacío',
 		textarea: 'Este campo es requerido y no puede estar vacío',
 		hidden: 'Este campo es requerido y no puede estar vacío',
@@ -122,7 +127,7 @@ var Validate = function () {
 		var msg = ' - ' + options.lang[el.type], _modifiers = Object.keys(modifiers);
 
 		for (var i = _modifiers.length - 1; i >= 0; i--)
-			if (jQuery(el).data(_modifiers[i]))
+			if (jQuery(el).data(_modifiers[i]) != null)
 				msg += '<br /> - ' + options.lang[_modifiers[i]] + (typeof jQuery(el).data(_modifiers[i]) !== 'boolean' ? jQuery(el).data(_modifiers[i]) : '');
 
 		if (jQuery(el).next(_warn_description_class).length === 0)
