@@ -46,6 +46,7 @@ var validateJs = {
   email: 'Esto no es una dirección email valida, por favor verifícala',
   text: 'Este campo es requerido y no puede estar vacío',
   password: 'Este campo es requerido y no puede estar vacío',
+  passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
   'select-one': 'Este campo es requerido y no puede estar vacío',
   textarea: 'Este campo es requerido y no puede estar vacío',
   hidden: 'Este campo es requerido y no puede estar vacío',
@@ -108,6 +109,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```letters-spaces```: permite letras y espacios
 > - ```numbers```: sólo permite números
 > - ```ip```: permite direcciones válidas
+> - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
 
 
 ### Live validations
