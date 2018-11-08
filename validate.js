@@ -16,9 +16,9 @@ var Validate = function () {
 		descriptions: true
 
 	}, regs = {
-		letters_only: /^[a-zA-Z_\-]+$/,
+		letters_only: /^[a-zA-Z]+$/,
 		letters_spaces: /^[A-Za-z ]+$/,
-		numbers_only: /^[0-9_\-]+$/,
+		numbers_only: /^[0-9]+$/,
 		numbers_spaces: /^[0-9 ]+$/,
 		password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/
 
@@ -44,6 +44,12 @@ var Validate = function () {
 		passwd: function (el) {
 			return el.data('passwd') ? regs.password.test(el.val()) : true;
 		},
+		email: function (el) {
+			if (el.data('email')) {
+				var text = el.val(), at = text.lastIndexOf('@'), dot = text.lastIndexOf('.');
+				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters_only.test(text.substr(dot + 1, text.length - 1));
+			} return true;
+		},
 		default: function (el) {
 			return el.val().length > 0;
 		}
@@ -59,6 +65,7 @@ var Validate = function () {
 		password: 'Este campo es requerido y no puede estar vacío',
 		passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
 		'select-one': 'Este campo es requerido y no puede estar vacío',
+		email: 'Debe ser un email válido',
 		textarea: 'Este campo es requerido y no puede estar vacío',
 		hidden: 'Este campo es requerido y no puede estar vacío',
 		checkbox: 'Este campo es requerido y no puede estar vacío',
@@ -134,29 +141,6 @@ var Validate = function () {
 			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
 	};
 
-	var email = function (text) {
-		var itsOk = false, flag = text;
-
-		try {
-			text = text.split('@');
-
-			if (text[0].length === 0)
-				return false;
-
-			text = text[1].split('.');
-
-			if (text[0].length === 0 || text[1].length < 2)
-				return false;
-
-			itsOk = true;
-		} catch (e) {
-			if (options.debug)
-				console.log('Excepción validando email en: ' + flag + ' e: ' + e);
-		}
-
-		return itsOk;
-	};
-
 	var text = function (el) {
 		var itsOk = true;
 
@@ -205,13 +189,7 @@ var Validate = function () {
 		var itsOk = true;
 
 		try {
-
 			switch (el.type) {
-
-				case 'email':
-					itsOk = email(el.value);
-					break;
-
 				case 'checkbox':
 				case 'radio':
 					itsOk = jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked');
@@ -219,10 +197,7 @@ var Validate = function () {
 
 				default:
 					itsOk = text(el);
-
 			}
-
-
 		} catch (e) {
 			if (options.debug) {
 				console.log('Excepción validando campo: ' + e);

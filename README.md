@@ -81,15 +81,6 @@ Usando ```options.type = 'group'``` y  ```options.group = 'validame'```
 > Usando ```options.type = 'group-required'``` y ```options.group = 'nombre-de-clase'``` sólo valida los campos del grupo que sean **required**
 
 
-
-#### Casos especiales:
-
-El campo de ```email``` debe ser especificado con su tipo:
-
-```html
-<input type="email" class="validame" />
-```
-
 > Los campos ```checkbox``` y ```radio``` deben contener la propiedad ```name```
 
 
@@ -110,6 +101,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```numbers```: sólo permite números
 > - ```ip```: permite direcciones válidas
 > - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
+> - ```email```: dirección de correo
 
 
 ### Live validations

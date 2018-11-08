@@ -30,6 +30,7 @@
 						<span class="badge badge-default control-data" data-opt="numbers">numbers</span>
 						<span class="badge badge-default control-data" data-opt="ip">ip</span>
 						<span class="badge badge-default control-data" data-opt="passwd">passwd</span>
+						<span class="badge badge-default control-data" data-opt="email">email</span>
 						<span class="badge badge-default control join-group">join-group</span>
 						<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
 						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span>
