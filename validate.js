@@ -60,7 +60,6 @@ var Validate = function () {
 		numbers: 'Este campo solo permite números',
 		letters: 'Este campo solo permite letras (sin espacios)',
 		lettersSpaces: 'Este campo solo permite letras',
-		email: 'Esto no es una dirección email valida, por favor verifícala',
 		text: 'Este campo es requerido y no puede estar vacío',
 		password: 'Este campo es requerido y no puede estar vacío',
 		passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
