@@ -114,4 +114,14 @@
 
 	};
 
+	$('.dark-btn').click(function() {
+		if (!$('body').hasClass('dark-mode')){
+			$('body').addClass('dark-mode');
+			$(this).html('Light Mode <i class="far fa-moon"></i>');
+		} else {
+			$('body').removeClass('dark-mode');
+			$(this).html('Dark Mode <i class="fas fa-moon"></i>');
+		}
+	});
+
 })();
