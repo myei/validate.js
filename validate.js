@@ -1,19 +1,22 @@
 /**
  *	Validate.js
  *
- *	@author: 
+ *	@author:
  *  	https://github.com/myei/validate.js
  */
-var Validate = function () {
+var Validate = function (user_options) {
 
 	var options = {
 		type: 'all',
 		group: '',
 		required: true,
 		warn: true,
-		debug: false,
 		lang: 'default',
-		descriptions: true
+		descriptions: true,
+	    animations: true,
+      	color: 'red',
+	    realTime: true,
+	    debug: false
 
 	}, regs = {
 		letters_only: /^[a-zA-Z]+$/,
@@ -73,71 +76,80 @@ var Validate = function () {
 		ip: 'Esto no es una dirección ip valida, por favor verifícala'
 	},
 
-	warn_class = '.validate-warn',
-	_warn_class = 'validate-warn',
-	warn_description_class = '.validate-warn-description';
-	_warn_description_class = 'validate-warn-description';
+	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
+	warn_description_class = '.validate-warn-description', _warn_description_class = warn_description_class.substr(1),
+  	target = 'input, select, textarea', target_req = 'input[required], select[required], textarea[required]';
 
-	jQuery('<style>.validate-warn { border-color: red; } .validate-warn-description { color: red; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
-	
-	var itsOk = function (user_options) {
-		var status = true, current, target = 'input[required], select[required], textarea[required]';
 
-		try {			
-			options = Object.assign(options, user_options);
-			clean();
 
-			target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : target;
+	var build = function (user_options) {
+		try {
+		  options = Object.assign(options, user_options);
+		  target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : options.required ? target_req : target;
 
-			setLang(options.lang);
+		  setLang(options.lang);
+		  jQuery('<style>.validate-warn { border-color: ' + options.color + '; } .validate-warn-description { color: ' + options.color + '; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
 
-			jQuery(target).each(function(index, el) {
-				current = field(el);
-
-				if (!current) 
-					status = current;
-
-				addWarn(el, !current);
-			});
+		  if (options.realTime)
+		    jQuery(target).bind('keyup change', function() { handleField(this, true); });
 
 		} catch (e) {
 			if (options.debug)
-				console.log('Excepción validando segun solicitud: ' + JSON.stringify(options) + ' e: ' + e);
+				console.error('Excepción construyendo instancia con las opciones suministradas:', options, e.message);
 		}
+	};
+
+	var itsOk = function () {
+		var status = true;
+
+	    try {
+	  		jQuery(target).each(function(index, el) {
+	  		  if (!handleField(el))
+	  		    status = false
+	  		});
+
+	    } catch (e) {
+	    	if (options.debug)
+	        	console.error('Excepción validando con el target especificado: ' + target + ' e: ' + e);
+	    }
 
 		return status;
 	};
 
 	var setLang = function (_lang) {
-		options.lang = _lang === 'translateJs' ? Translate.get('validateJs') : typeof _lang === 'object' ? _lang : _lang === 'default' ? lang : window[_lang].validateJs;
+		options.lang = _lang === 'translateJs' ? Translate.get('validateJs') : _lang;
 
 		options.lang = Object.assign(lang, options.lang);
 	};
 
-	var addWarn = function (el, show) {
+	var addWarn = function (el, show, live) {
 		if (options.warn && show) {
-			var aux = parseInt(jQuery(el).css('margin-left'));
-			jQuery(el).addClass(_warn_class).animate({ marginLeft: (aux - 10) + 'px' }, 100)
-												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
-												.animate({ marginLeft: (aux - 10) + 'px' }, 100)
-												.animate({ marginLeft: (aux + 10) + 'px' }, 100)
-												.animate({ marginLeft: aux + 'px' }, 100);
-												
+			jQuery(el).addClass(_warn_class);
+
+	      	if (options.animations && !live) {
+	        	var aux = parseInt(jQuery(el).css('margin-left'));
+
+		        jQuery(el).animate({ marginLeft: (aux - 10) + 'px' }, 100)
+					        .animate({ marginLeft: (aux + 10) + 'px' }, 100)
+					        .animate({ marginLeft: (aux - 10) + 'px' }, 100)
+					        .animate({ marginLeft: (aux + 10) + 'px' }, 100)
+					        .animate({ marginLeft: aux + 'px' }, 100);
+	      	}
+
 			if (options.descriptions)
 				addDescription(el);
-		} else 
-			jQuery(el).removeClass(_warn_class).next(_warn_description_class).remove();
+		}
 	};
 
 	var addDescription = function (el) {
-		var msg = ' - ' + options.lang[el.type], _modifiers = Object.keys(modifiers);
+		var msg = '', nodeName = el.type, _modifiers = Object.keys(modifiers), el = jQuery(el);
 
 		for (var i = _modifiers.length - 1; i >= 0; i--)
-			if (jQuery(el).data(_modifiers[i]) != null)
-				msg += '<br /> - ' + options.lang[_modifiers[i]] + (typeof jQuery(el).data(_modifiers[i]) !== 'boolean' ? jQuery(el).data(_modifiers[i]) : '');
+			if (el.data(_modifiers[i]) != null && (!modifiers[_modifiers[i]](el) || !el.val().length))
+				msg += ' - ' + options.lang[_modifiers[i]] + (typeof el.data(_modifiers[i]) !== 'boolean' ? el.data(_modifiers[i]) : '') + '<br />';
 
-		if (jQuery(el).next(_warn_description_class).length === 0)
-			jQuery(el).after('<span class="validate-warn-description">' + msg + '</span>');
+		if (!el.next(_warn_description_class).length)
+			el.after('<span class="validate-warn-description">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[nodeName])) + '</span>');
 	};
 
 	var text = function (el) {
@@ -153,55 +165,8 @@ var Validate = function () {
 				}
 
 		} catch (e) {
-			if (options.debug) {
-				console.log('Excepción validando campo de texto: ' + e);
-				console.log(el);
-			}
-		}
-
-		return itsOk;
-	};
-
-	var ip = function (text) {
-		var itsOk = true, flag = text;
-
-		try {
-			text = text.split('.');
-
-			if (text.length < 4)
-				return false;
-
-			text.forEach(function (i) {
-				if (!regs.numbers_only.test(i) || parseInt(i) > 255)
-					itsOk = false;
-			});
-
-		} catch (e) {
 			if (options.debug)
-				console.log('Excepción validando ip en: ' + flag + ' e: ' + e);
-		}
-
-		return itsOk;
-	};
-
-	var field = function (el) {
-		var itsOk = true;
-
-		try {
-			switch (el.type) {
-				case 'checkbox':
-				case 'radio':
-					itsOk = jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked');
-					break;
-
-				default:
-					itsOk = text(el);
-			}
-		} catch (e) {
-			if (options.debug) {
-				console.log('Excepción validando campo: ' + e);
-				console.log(el);
-			}
+				console.error('Excepción validando campo de texto: ' + e);
 		}
 
 		return itsOk;
@@ -228,7 +193,29 @@ var Validate = function () {
 
 			jQuery(this).val().length === 1 && ((e.keyCode >= 99 && e.keyCode <= 105)  || (e.keyCode >=51 && e.keyCode <= 57)))
 
-			return false;	
+			return false;
+	};
+
+  	var ip = function (text) {
+		var itsOk = true, flag = text;
+
+		try {
+			text = text.split('.');
+
+			if (text.length < 4)
+				return false;
+
+			text.forEach(function (i) {
+				if (!regs.numbers_only.test(i) || parseInt(i) > 255)
+					itsOk = false;
+			});
+
+		} catch (e) {
+			if (options.debug)
+				console.error('Excepción validando ip en: ' + flag + ' e: ' + e);
+		}
+
+		return itsOk;
 	};
 
 	var live = {
@@ -242,18 +229,54 @@ var Validate = function () {
 		jQuery(target).keydown(live[role]);
 	};
 
-	var clean = function () {
-		jQuery(warn_class).removeClass(_warn_class);
-		jQuery(warn_description_class).remove();
+  	var field = function (el) {
+		var itsOk = true;
+
+		try {
+			switch (el.type) {
+				case 'checkbox':
+				case 'radio':
+					itsOk = jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked');
+					break;
+
+				default:
+					itsOk = text(el);
+			}
+		} catch (e) {
+			if (options.debug) {
+				console.error('Excepción validando campo: ' + e);
+			}
+		}
+
+		return itsOk;
 	};
+
+  	var handleField = function (el, live) {
+  		var status = field(el);
+
+	    clean(el);
+	    addWarn(el, !status, live);
+
+	    return status;
+	};
+
+	var clean = function (el) {
+    	jQuery(el).removeClass(_warn_class);
+
+		if (jQuery(el).next().hasClass(_warn_description_class))
+      		jQuery(el).next().remove();
+	};
+
+  	build(user_options);
+
 
 	return {
 		addLive: function (role, target) {
-			return addLive(role, target);	
+			return addLive(role, target);
 		},
-		itsOk: function (options) {
-			return itsOk(options);
+		itsOk: function () {
+			return itsOk();
 		}
 	};
 
-}();
+};

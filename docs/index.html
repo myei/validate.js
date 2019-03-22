@@ -50,10 +50,63 @@
 					<span class="badge badge-primary control join-group">join-group</span>
 					<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
 					<span class="badge badge-default control control-live" data-opt="numeric">numeric</span>
-					<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span>
+					<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span> <br>
+					<span class="badge badge-default control control-data control-data-in" data-opt="default-msg">default-msg</span>
 				</div>
 
-				<input type="text" class="form-control validate-me" placeholder="Field 1">
+				<input type="text" class="form-control validate-me" placeholder="Input">
+			</div>
+
+			<div class="col-md-6">
+				<div class="toolbox text-right">
+					<span class="badge badge-default control control-prop" data-opt="required">required</span>
+					<span class="badge badge-default control control-data control-data-in" data-opt="min">min</span>
+					<span class="badge badge-default control control-data control-data-in" data-opt="max">max</span>
+					<span class="badge badge-default control control-data" data-opt="letters">letters</span>
+					<span class="badge badge-default control control-data" data-opt="letters-spaces">letters-spaces</span>
+					<span class="badge badge-default control control-data" data-opt="numbers">numbers</span>
+					<span class="badge badge-default control control-data" data-opt="ip">ip</span>
+					<span class="badge badge-default control control-data" data-opt="passwd">passwd</span>
+					<span class="badge badge-default control control-data" data-opt="email">email</span>
+					<span class="badge badge-primary control join-group">join-group</span>
+					<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
+					<span class="badge badge-default control control-live" data-opt="numeric">numeric</span>
+					<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span> <br>
+					<span class="badge badge-default control control-data control-data-in" data-opt="default-msg">default-msg</span>
+				</div>
+
+				<select type="text" class="form-control validate-me">
+					<option value="">Select</option>
+					<option value="this">this</option>
+					<option value="is">is</option>
+					<option value="a">a</option>
+					<option value="sampl">sample</option>
+					<option value="list">list</option>
+					<option value="with different">with different</option>
+					<option value="length">length</option>
+					<option value="options">options</option>
+				</select>
+			</div>
+
+			<div class="col-md-6">
+				<div class="toolbox text-right">
+					<span class="badge badge-default control control-prop" data-opt="required">required</span>
+					<span class="badge badge-default control control-data control-data-in" data-opt="min">min</span>
+					<span class="badge badge-default control control-data control-data-in" data-opt="max">max</span>
+					<span class="badge badge-default control control-data" data-opt="letters">letters</span>
+					<span class="badge badge-default control control-data" data-opt="letters-spaces">letters-spaces</span>
+					<span class="badge badge-default control control-data" data-opt="numbers">numbers</span>
+					<span class="badge badge-default control control-data" data-opt="ip">ip</span>
+					<span class="badge badge-default control control-data" data-opt="passwd">passwd</span>
+					<span class="badge badge-default control control-data" data-opt="email">email</span>
+					<span class="badge badge-primary control join-group">join-group</span>
+					<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
+					<span class="badge badge-default control control-live" data-opt="numeric">numeric</span>
+					<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span> <br>
+					<span class="badge badge-default control control-data control-data-in" data-opt="default-msg">default-msg</span>
+				</div>
+
+				<textarea class="form-control validate-me" rows="2" placeholder="textarea"></textarea>
 			</div>
 
 			<div class="col-md-1">
@@ -76,8 +129,11 @@
 				<span class="badge badge-default control set" data-opt="required">required</span>
 				<span class="badge badge-primary control set" data-opt="warn">warn</span>
 				<span class="badge badge-primary control set" data-opt="descriptions">descriptions</span>
+				<span class="badge badge-primary control set" data-opt="animations">animations</span>
+				<span class="badge badge-primary control set set-in" data-opt="color" data-in="Type hex color:">color</span>
+				<span class="badge badge-primary control set" data-opt="realTime">realTime</span>
 				<span class="badge badge-secondary control">lang</span>
-				<span class="badge badge-secondary control">debug</span>
+				<span class="badge badge-primary control set" data-opt="debug">debug</span>
 			</div>
 		</div>
 
@@ -95,6 +151,10 @@
 	<input type="hidden" id="required" value="false">
 	<input type="hidden" id="warn" value="true">
 	<input type="hidden" id="descriptions" value="true">
+	<input type="hidden" id="animations" value="true">
+	<input type="hidden" id="color" value="red">
+	<input type="hidden" id="realTime" value="true">
+	<input type="hidden" id="debug" value="true">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

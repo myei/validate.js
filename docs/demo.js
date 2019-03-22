@@ -1,14 +1,10 @@
 (function(){
+	var validate;
+
+	setInstance();
 
 	$('.validate').click(function() {
-		if (Validate.itsOk({
-						type: $('#target').val(), 
-						group: 'validate-me', 
-						required: ($('#required').val() == 'true'),
-						warn: ($('#warn').val() == 'true'),
-						debug: ($('#debug').val() == 'true'),
-						descriptions: ($('#descriptions').val() == 'true')
-					}))
+		if (validate.itsOk())
 			$('.good').fadeIn();
 		else
 			$('.bad').fadeIn();
@@ -34,7 +30,8 @@
 						<span class="badge badge-default control join-group">join-group</span>
 						<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
 						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span>
-						<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span>
+						<span class="badge badge-default control control-live" data-opt="international_phone">international_phone</span> <br>
+						<span class="badge badge-default control control-data control-data-in" data-opt="default-msg">default-msg</span>
 					</div>
 
 					<input class="form-control" placeholder="field ` + node + `">
@@ -46,14 +43,17 @@
 	});
 
 	$('body').delegate('.toolbox .control-prop', 'click', function() {
-		var target = $(this).parent().siblings('input');
+		var target = $(this).parent().siblings('input, select, textarea');
 		target.prop($(this).data('opt'), !target.prop('required'));
 
 		endisable(this);
+
+		setInstance();
+		$('.validate').trigger('click');
 	});
 
 	$('body').delegate('.toolbox .control-data', 'click', function() {
-		var target = $(this).parent().siblings('input'), val = !$(this).parent().siblings('input').data($(this).data('opt'));
+		var target = $(this).parent().siblings('input, select, textarea'), val = !$(this).parent().siblings('input, select, textarea').data($(this).data('opt'));
 
 		if ($(this).hasClass('badge-primary')) {
 			endisable(this);
@@ -70,29 +70,49 @@
 
 		target.data($(this).data('opt'), val);
 		endisable(this);
+
+		setInstance();
+		$('.validate').trigger('click');
 	});
 
 	$('.set').click(function() {
 		if ($(this).hasClass('single'))
 			endisable('.single');
 
+		if ($(this).hasClass('set-in') && !$(this).hasClass('badge-primary')) {
+			val = prompt($(this).data('in'));
+
+			if (val.length === 0)
+				return false;
+
+			$('#' + $(this).data('opt')).val(val);
+		} else
+			$('#' + $(this).data('opt')).val($(this).hasClass('single') ? $(this).html() : $('#' + $(this).data('opt')).val() == 'true' ? false : true);
+
 		endisable(this);
 
-		$('#' + $(this).data('opt')).val($(this).hasClass('single') ? $(this).html() : $('#' + $(this).data('opt')).val() == 'true' ? false : true);
+		setInstance();
+		$('.validate').trigger('click');
+
+		if ($(this).html() === 'realTime' && $('#' + $(this).data('opt')).val() == 'false')
+			$('input, select, textarea').off('keyup change');
 	});
 
 	$('body').delegate('.join-group', 'click', function() {
-		var target = $(this).parent().siblings('input');
+		var target = $(this).parent().siblings('input, select, textarea');
 		endisable(this);
 
 		if (!target.hasClass('validate-me'))
 			target.addClass('validate-me');
 		else
 			target.removeClass('validate-me');
+
+			setInstance();
+			$('.validate').trigger('click');
 	});
 
 	$('body').delegate('.control-live', 'click', function() {
-		var target = $(this).parent().siblings('input');
+		var target = $(this).parent().siblings('input, select, textarea');
 
 		if ($(this).hasClass('badge-primary'))
 			target.off('keydown').removeClass('validate-' + $(this).data('opt'))
@@ -100,7 +120,7 @@
 			target.addClass('validate-' + $(this).data('opt'))
 
 		endisable(this);
-		Validate.addLive($(this).data('opt'));
+		validate.addLive($(this).data('opt'));
 	});
 
 	var endisable = function (el, dis) {
@@ -123,5 +143,19 @@
 			$(this).html('Dark Mode <i class="fas fa-moon"></i>');
 		}
 	});
+
+	function setInstance () {
+		validate = Validate({
+											type: $('#target').val(),
+											group: 'validate-me',
+											required: ($('#required').val() == 'true'),
+											warn: ($('#warn').val() == 'true'),
+											debug: ($('#debug').val() == 'true'),
+											descriptions: ($('#descriptions').val() == 'true'),
+											animations: ($('#animations').val() == 'true'),
+											color: $('#color').val(),
+											realTime: ($('#realTime').val() == 'true')
+										});
+	};
 
 })();

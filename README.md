@@ -17,21 +17,26 @@ Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar 
 
 #### Definición de opciones:
 
+Los siguientes son los valores por defecto, se pueden especificar sólo los valores que deseemos cambiar
+
 ```javascript
 var opciones = {
-  type: 'all',      // group, group-required (def. all)
-  group: '',      // Nombre de la clase del grupo
-  required: true,   // Sólo campos requeridos (def. true)
-  warn: true,     // Resaltado de campos incorrectos (def. true)
-  debug: false,     // Mensajes de errores por consola (def. false)
-  lang: 'default',    // JSON ó nombre de la variable
-  descriptions: true  // Descripción de los campos incorrectos (def. true)
+  type: 'all',        // all ó group
+  group: '',          // Nombre de la clase del grupo (requiere group: 'algun-nombre')
+  required: false,     // Sólo campos requeridos
+  warn: true,         // Resaltado de campos incorrectos
+  descriptions: true, // Descripción de los campos incorrectos (requiere warn: true)
+  lang: 'default',    // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true)
+  animations: true,   // Animar los campos incorrectos (requiere warn: true)
+  color: 'red',       // (hex) color de los errores, (inlcuir #)
+  realTime: true,     // Validar al pulsar una tecla (requiere warn: true)
+  debug: false        // Mensajes de errores por consola
 }
 ```
 
 #### Personalización de mensajes:
 
-Si queremos cambiar los mensajes por defecto debemos hacerlo siguiendo la siguiente estructura:
+Si queremos cambiar los mensajes por defecto, podemos pasar la siguiente variable en el atributo ```lang``` del objeto ```opciones```, cambiando sólo lo que deseemos personalizar:
 
 > Sí se usa **[Translate.js](https://github.com/myei/translate.js)** se debe incluir este objeto en cada idioma
 
@@ -54,31 +59,60 @@ var validateJs = {
   radio: 'Este campo es requerido y no puede estar vacío',
   ip: 'Esto no es una dirección ip valida, por favor verifícala'
 }
+
+opciones = {
+  lang: validateJs
+};
+
+// ó
+
+opciones = {
+  lang: {
+    min: 'Mensaje personalizado para min'
+  }
+};
+```
+
+Otra forma de personalizar los mensajes es por medio de la directiva ```data-default-msg``` (mostrado sólo en caso de estar vacío):
+
+```html
+<input type="text" data-default-msg="Mensaje personalizado, sólo para este campo">
 ```
 
 #### Ejecutando validación:
 
 ```javascript
-Validate.itsOk(options);  // retorna true si todo está correcto
+validate = Validate(opciones) // Sí ```realTime: true``, ya comienza a escuchar en cada campo
+
+// Para verificar el estatus de la validación global es de la siguiente forma:
+validate.itsOk();  // (ret. boolean)
 ```
 
 #### Configuración de elementos **HTML**
 
-Usando ```options.type = 'all'```
+Usando ```opciones.type = 'all'``` cubrirá todos los elementos: ```input```, ```select```, ```textarea``` sin distinción
 
 ```html
-<input type="text" required />
+<input type="text" />
 ```
 
+Usando ```opciones.type = 'all'``` y ```opciones.required = true```
 
-Usando ```options.type = 'group'``` y  ```options.group = 'validame'```
+```html
+<input type="text" required/>
+```
+
+Usando ```opciones.type = 'group'``` y  ```opciones.group = 'validame'```
 
 ```html
 <input type="radio" name="genero" class="validame" />
-<input type="radio" name="genero" class="validame" />
+
+<select name="genero" class="validame">
+  <option value=""></option>
+</select>
 ```
 
-> Usando ```options.type = 'group-required'``` y ```options.group = 'nombre-de-clase'``` sólo valida los campos del grupo que sean **required**
+> Usando ```opciones.required = true``` sólo validará los campos del ```target``` que sean **required**
 
 
 > Los campos ```checkbox``` y ```radio``` deben contener la propiedad ```name```
@@ -93,15 +127,15 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 <textarea data-min="2" data-max="140" />
 ```
 
-> Los ```modificadores``` pueden ser usados en conjunto y los disponibles son: 
-> - ```min```: longitud mínima del campo
-> - ```max```: longitud máxima del campo
-> - ```letters```: sólo permite letras
-> - ```letters-spaces```: permite letras y espacios
-> - ```numbers```: sólo permite números
-> - ```ip```: permite direcciones válidas
-> - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
-> - ```email```: dirección de correo
+> Los ```modificadores``` pueden ser usados en conjunto y los disponibles son:
+> - ```min```: (int) longitud mínima del campo
+> - ```max```: (int) longitud máxima del campo
+> - ```letters```: (bool) sólo permite letras
+> - ```letters-spaces```: (bool) permite letras y espacios
+> - ```numbers```: (bool) sólo permite números
+> - ```ip```: (bool) permite direcciones válidas
+> - ```passwd```: (bool) al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
+> - ```email```: (bool) dirección de correo
 
 
 ### Live validations
