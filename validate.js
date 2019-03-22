@@ -57,6 +57,14 @@ var Validate = function (user_options) {
 			return el.val().length > 0;
 		}
 
+	}, live = {
+		alphabetic: function (e) {
+	  		return !(![8, 16, 32].includes(e.keyCode) && (e.keyCode < 69 || e.keyCode > 90));
+	  	},
+		numeric: function (e) {
+	  		return !(e.keyCode != 8 && !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)));
+	  	}
+
 	}, lang = {
 		min: 'La longitud de caracters mínima para este campo es de: ',
 		max: 'La longitud de caracters máxima para este campo es de: ',
@@ -172,30 +180,6 @@ var Validate = function (user_options) {
 		return itsOk;
 	};
 
-	var alphabetic = function (e) {
-		return !(e.keyCode != 8 && (e.keyCode < 69 || e.keyCode > 90));
-	};
-
-	var numeric = function (e) {
-		return !(e.keyCode != 8 && !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)));
-	};
-
-	var international_phone = function (e) {
-		/**
-		 * VALIDACIÓN NBX<phonenumber>
-		 *  N > 1
-		 *  B = 0, 1, 2
-		 *  X = 0 - 9
-		 */
-		if (!numeric(e) || jQuery(this).val().length === 10 ||
-
-			(jQuery(this).val().length === 0 && (e.keyCode == 96 || e.keyCode == 48 || e.keyCode == 97 || e.keyCode == 49)) ||
-
-			jQuery(this).val().length === 1 && ((e.keyCode >= 99 && e.keyCode <= 105)  || (e.keyCode >=51 && e.keyCode <= 57)))
-
-			return false;
-	};
-
   	var ip = function (text) {
 		var itsOk = true, flag = text;
 
@@ -216,12 +200,6 @@ var Validate = function (user_options) {
 		}
 
 		return itsOk;
-	};
-
-	var live = {
-		alphabetic: alphabetic,
-		numeric: numeric,
-		international_phone: international_phone
 	};
 
 	var addLive = function (role, target) {

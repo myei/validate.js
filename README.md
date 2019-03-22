@@ -146,7 +146,6 @@ También se pueden agregar validaciones de **pulsaciones de teclas**, para que s
 > Los ```role``` disponibles son:
 > - ```alphabetic```: solo permite letras
 > - ```numeric```: solo permite números
-> - ```international_phone```: valida los teléfonos según el formato NBXXXXXXXX
 
 
 ```javascript
