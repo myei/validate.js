@@ -54,7 +54,7 @@ var Validate = function (user_options) {
 			} return true;
 		},
 		default: function (el) {
-			return el.val().length > 0;
+			return el.val() && el.val().length > 0;
 		}
 
 	}, live = {
