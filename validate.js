@@ -23,35 +23,39 @@ var Validate = function (user_options) {
 		letters_spaces: /^[A-Za-z ]+$/,
 		numbers_only: /^[0-9]+$/,
 		numbers_spaces: /^[0-9 ]+$/,
-		password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/
+		password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
+		url: /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
 
 	}, modifiers = {
 		min: function (el) {
-			return el.data('min') ? el.val().length >= el.data('min') : true;
+			return el.data('min') !== undefined ? el.val().length >= el.data('min') : true;
 		},
 		max: function (el) {
-			return el.data('max') ? el.val().length <= el.data('max') : true;
+			return el.data('max') !== undefined ? el.val().length <= el.data('max') : true;
 		},
 		numbers: function (el) {
-			return el.data('numbers') ? regs.numbers_only.test(el.val()) : true;
+			return el.data('numbers') !== undefined ? regs.numbers_only.test(el.val()) : true;
 		},
 		letters: function (el) {
-			return el.data('letters') ? regs.letters_only.test(el.val()) : true;
+			return el.data('letters') !== undefined ? regs.letters_only.test(el.val()) : true;
 		},
 		lettersSpaces: function (el) {
-			return el.data('letters-spaces') ? regs.letters_spaces.test(el.val()) : true;
+			return el.data('letters-spaces') !== undefined ? regs.letters_spaces.test(el.val()) : true;
 		},
 		ip: function (el) {
-			return el.data('ip') ? ip(el.val()) : true;
+			return el.data('ip') !== undefined ? ip(el.val()) : true;
 		},
 		passwd: function (el) {
-			return el.data('passwd') ? regs.password.test(el.val()) : true;
+			return el.data('passwd') !== undefined ? regs.password.test(el.val()) : true;
 		},
 		email: function (el) {
-			if (el.data('email')) {
+			if (el.prop('type') === 'email' || el.data('email') !== undefined) {
 				var text = el.val(), at = text.lastIndexOf('@'), dot = text.lastIndexOf('.');
 				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters_only.test(text.substr(dot + 1, text.length - 1));
 			} return true;
+		},
+		url: function (el) {
+			return el.data('url') !== undefined ? regs.url.test(el.val()) : true;
 		},
 		default: function (el) {
 			return el.val() && el.val().length > 0;
@@ -81,7 +85,8 @@ var Validate = function (user_options) {
 		checkbox: 'Este campo es requerido y no puede estar vacío',
 		radio: 'Este campo es requerido y no puede estar vacío',
 		file: 'Debe agregar al menos un archivo',
-		ip: 'Esto no es una dirección ip valida, por favor verifícala'
+		ip: 'Esto no es una dirección ip valida, por favor verifícala',
+		url: 'Esto no es una url correcta. <br> - ej: https://google.com'
 	},
 
 	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
@@ -180,26 +185,20 @@ var Validate = function (user_options) {
 		return itsOk;
 	};
 
+	var checkboxRadio = function (el) {
+		if (!el.hasAttribute('name'))
+			throw new Error('Los campos ckeckbox y radio requieren el uso de la propiedad name para poder validar correctamente.');
+
+		return jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked')
+	};
+
   	var ip = function (text) {
-		var itsOk = true, flag = text;
+		text = text.split('.');
 
-		try {
-			text = text.split('.');
-
-			if (text.length < 4)
-				return false;
-
-			text.forEach(function (i) {
-				if (!regs.numbers_only.test(i) || parseInt(i) > 255)
-					itsOk = false;
-			});
-
-		} catch (e) {
-			if (options.debug)
-				console.error('Excepción validando ip en: ' + flag + ' e: ' + e);
-		}
-
-		return itsOk;
+		return text.length === 4 && text.find(function (i) {
+										if (!regs.numbers_only.test(i) || parseInt(i) > 255) 
+											return true;
+									}) === undefined;
 	};
 
 	var addLive = function (role, target) {
@@ -210,20 +209,14 @@ var Validate = function (user_options) {
   	var field = function (el) {
 		var itsOk = true;
 
-		try {
-			switch (el.type) {
-				case 'checkbox':
-				case 'radio':
-					itsOk = jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked');
-					break;
+		switch (el.type) {
+			case 'checkbox':
+			case 'radio':
+				itsOk = checkboxRadio(el);
+				break;
 
-				default:
-					itsOk = text(el);
-			}
-		} catch (e) {
-			if (options.debug) {
-				console.error('Excepción validando campo: ' + e);
-			}
+			default:
+				itsOk = text(el);
 		}
 
 		return itsOk;

@@ -21,16 +21,16 @@ Los siguientes son los valores por defecto, se pueden especificar sólo los valo
 
 ```javascript
 var opciones = {
-  type: 'all',        // all ó group
-  group: '',          // Nombre de la clase del grupo (requiere group: 'algun-nombre')
-  required: false,     // Sólo campos requeridos
-  warn: true,         // Resaltado de campos incorrectos
-  descriptions: true, // Descripción de los campos incorrectos (requiere warn: true)
-  lang: 'default',    // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true)
-  animations: true,   // Animar los campos incorrectos (requiere warn: true)
-  color: 'red',       // (hex) color de los errores, (inlcuir #)
-  realTime: true,     // Validar al pulsar una tecla (requiere warn: true)
-  debug: false        // Mensajes de errores por consola
+  type: 'all',                 // all ó group
+  group: '',                  // Nombre de la clase del grupo (requiere type: 'group')
+  required: true,        // Sólo campos requeridos
+  warn: true,              // Resaltado de campos incorrectos
+  descriptions: true,  // Descripción de los campos incorrectos (requiere warn: true)
+  lang: 'default',         // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true y descriptions: true)
+  animations: true,    // Animar los campos incorrectos (requiere warn: true)
+  color: 'red',              // (hex) color de los errores, (inlcuir #, requiere warn: true)
+  realTime: true,        // Validar al pulsar una tecla (requiere warn: true)
+  debug: false            // Mensajes de errores por consola
 }
 ```
 
@@ -57,7 +57,8 @@ var validateJs = {
   hidden: 'Este campo es requerido y no puede estar vacío',
   checkbox: 'Este campo es requerido y no puede estar vacío',
   radio: 'Este campo es requerido y no puede estar vacío',
-  ip: 'Esto no es una dirección ip valida, por favor verifícala'
+  ip: 'Esto no es una dirección ip valida, por favor verifícala',
+  url: 'Esto no es una url correcta. <br> - ej: https://google.com'
 }
 
 opciones = {
@@ -121,27 +122,28 @@ Usando ```opciones.type = 'group'``` y  ```opciones.group = 'validame'```
 La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden usar los ```modificadores``` a través de la directiva ```data```:
 
 ```html
-<input type="text" name="nombres" data-min="3" data-letters-spaces="true" />
+<input type="text" name="nombres" data-min="3" data-letters-spaces />
 
 ...
-<textarea data-min="2" data-max="140" />
+<textarea data-min="2" data-max="140" data-numbers />
 ```
 
 > Los ```modificadores``` pueden ser usados en conjunto y los disponibles son:
 > - ```min```: (int) longitud mínima del campo
 > - ```max```: (int) longitud máxima del campo
-> - ```letters```: (bool) sólo permite letras
-> - ```letters-spaces```: (bool) permite letras y espacios
-> - ```numbers```: (bool) sólo permite números
-> - ```ip```: (bool) permite direcciones válidas
-> - ```passwd```: (bool) al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
-> - ```email```: (bool) dirección de correo
+> - ```letters```: sólo permite letras
+> - ```letters-spaces```: permite letras y espacios
+> - ```numbers```: sólo permite números
+> - ```ip```: permite direcciones válidas
+> - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
+> - ```email```: dirección de correo
+> - ```url```: url ej: https://google.com
 
 
 ### Live validations
 
 
-También se pueden agregar validaciones de **pulsaciones de teclas**, para que solo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
+También se pueden agregar validaciones de **pulsaciones de teclas**, para que sólo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
 
 > Los ```role``` disponibles son:
 > - ```alphabetic```: solo permite letras
@@ -149,8 +151,14 @@ También se pueden agregar validaciones de **pulsaciones de teclas**, para que s
 
 
 ```javascript
-Validate.addLive(role, target);
+Validate().addLive(role, target);
+
+Validate().addLive('numeric', 'validame'); // Ej: <input type="text" class="validame">
 ```
 
 > Sí ```target``` no se especifica, el valor por defecto es validate-```role```
 > ej: validate-alphabetic
+
+```javascript
+Validate().addLive('alphabetic'); // Ej: <input type="text" class="validate-alphabetic">
+```
