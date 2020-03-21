@@ -19,11 +19,10 @@ var Validate = function (user_options) {
 	    debug: false
 
 	}, regs = {
-		letters_only: /^[a-zA-Z]+$/,
-		letters_spaces: /^[A-Za-z ]+$/,
-		numbers_only: /^[0-9]+$/,
-		numbers_spaces: /^[0-9 ]+$/,
-		password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
+		letters: /^[a-zA-Z]+$/,
+		lettersSpaces: /^[A-Za-z ]+$/,
+		numbers: /^[0-9]+$/,
+		passwd: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
 		ip: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
 		url: /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
 
@@ -34,35 +33,25 @@ var Validate = function (user_options) {
 		max: function (el) {
 			return el.data('max') !== undefined ? el.val().length <= el.data('max') : true;
 		},
-		numbers: function (el) {
-			return el.data('numbers') !== undefined ? regs.numbers_only.test(el.val()) : true;
-		},
-		letters: function (el) {
-			return el.data('letters') !== undefined ? regs.letters_only.test(el.val()) : true;
-		},
-		lettersSpaces: function (el) {
-			return el.data('letters-spaces') !== undefined ? regs.letters_spaces.test(el.val()) : true;
-		},
-		ip: function (el) {
-			return el.data('ip') !== undefined ? regs.ip.test(el.val()) : true;
-		},
-		passwd: function (el) {
-			return el.data('passwd') !== undefined ? regs.password.test(el.val()) : true;
-		},
 		email: function (el) {
-			if (el.prop('type') === 'email' || el.data('email') !== undefined) {
+			if (_this.nodeName === 'email' || el.data('email') !== undefined) {
 				var text = el.val(), at = text.lastIndexOf('@'), dot = text.lastIndexOf('.');
-				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters_only.test(text.substr(dot + 1, text.length - 1));
+				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters.test(text.substr(dot + 1, text.length - 1));
 			} return true;
 		},
-		url: function (el) {
-			return el.data('url') !== undefined ? regs.url.test(el.val()) : true;
+		checkbox: function (el) {
+			return _this.nodeName === 'checkbox' ? checkboxRadio(el) : true;
+		},
+		radio: function (el) {
+			return _this.nodeName === 'radio' ? checkboxRadio(el) : true;
 		},
 		default: function (el) {
 			return el.val() && el.val().length > 0;
 		}
 
-	}, live = {
+	}, jobs = Object.keys(regs).concat(Object.keys(modifiers))
+
+	,  live = {
 		alphabetic: function (e) {
 	  		return !(![8, 16, 32].includes(e.keyCode) && (e.keyCode < 69 || e.keyCode > 90));
 	  	},
@@ -88,7 +77,7 @@ var Validate = function (user_options) {
 		file: 'Debe agregar al menos un archivo',
 		ip: 'Esto no es una dirección ip valida',
 		url: 'Esto no es una url correcta. <br> - ej: https://google.com'
-	},
+	}, _this = this,
 
 	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
 	warn_description_class = '.validate-warn-description', _warn_description_class = warn_description_class.substr(1),
@@ -156,41 +145,39 @@ var Validate = function (user_options) {
 	};
 
 	var addDescription = function (el) {
-		var msg = '', nodeName = el.type, _modifiers = Object.keys(modifiers), el = jQuery(el);
+		var msg = '', el = jQuery(el);
 
-		for (var i = _modifiers.length - 1; i >= 0; i--)
-			if (el.data(_modifiers[i]) != null && (!modifiers[_modifiers[i]](el) || !el.val().length))
-				msg += ' - ' + options.lang[_modifiers[i]] + (typeof el.data(_modifiers[i]) !== 'boolean' ? el.data(_modifiers[i]) : '') + '<br />';
+		if (this.errors.indexOf('default') != -1) 
+			this.errors.splice(this.errors.indexOf('default'), 1);
 
+		this.errors.forEach(error => {
+			msg += ' - ' + options.lang[error] + (el.data(error) && el.data(error) !== '' ? el.data(error) : '') + '<br />';
+		});
+		
 		if (!el.next(_warn_description_class).length)
-			el.after('<span class="validate-warn-description">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[nodeName])) + '</span>');
+			el.after('<span class="validate-warn-description">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[this.nodeName])) + '</span>');
 	};
 
-	var text = function (el) {
-		var itsOk = true;
-
+	var field = function (el) {
 		try {
 			el = jQuery(el);
 
-			for (var key in modifiers)
-				if (!modifiers[key](el)) {
-					itsOk = false;
-					break;
-				}
-
+			this.errors = jobs.filter(job => {
+				return job in modifiers ? !modifiers[job](el) : el.data(job) !== undefined ? !regs[job].test(el.val()) : false;
+			});
 		} catch (e) {
 			if (options.debug)
-				console.error('Excepción validando campo de texto: ' + e);
+				console.error('Excepción validando campo: ' + e);
 		}
 
-		return itsOk;
+		return this.errors.length === 0;
 	};
 
 	var checkboxRadio = function (el) {
-		if (!el.hasAttribute('name'))
+		if (!el.prop('name'))
 			throw new Error('Los campos ckeckbox y radio requieren el uso de la propiedad name para poder validar correctamente.');
 
-		return jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked')
+		return jQuery(el.prop('nodeName').toLowerCase() + '[type=' + this.nodeName + '][name=' + el.prop('name') + ']').is(':checked');
 	};
 
 	var addLive = function (role, target) {
@@ -198,23 +185,8 @@ var Validate = function (user_options) {
 		jQuery(target).keydown(live[role]);
 	};
 
-  	var field = function (el) {
-		var itsOk = true;
-
-		switch (el.type) {
-			case 'checkbox':
-			case 'radio':
-				itsOk = checkboxRadio(el);
-				break;
-
-			default:
-				itsOk = text(el);
-		}
-
-		return itsOk;
-	};
-
   	var handleField = function (el, live) {
+		this.nodeName = el.type;
   		var status = field(el);
 
 	    clean(el);
