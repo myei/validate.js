@@ -24,6 +24,7 @@ var Validate = function (user_options) {
 		numbers_only: /^[0-9]+$/,
 		numbers_spaces: /^[0-9 ]+$/,
 		password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
+		ip: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
 		url: /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
 
 	}, modifiers = {
@@ -43,7 +44,7 @@ var Validate = function (user_options) {
 			return el.data('letters-spaces') !== undefined ? regs.letters_spaces.test(el.val()) : true;
 		},
 		ip: function (el) {
-			return el.data('ip') !== undefined ? ip(el.val()) : true;
+			return el.data('ip') !== undefined ? regs.ip.test(el.val()) : true;
 		},
 		passwd: function (el) {
 			return el.data('passwd') !== undefined ? regs.password.test(el.val()) : true;
@@ -85,7 +86,7 @@ var Validate = function (user_options) {
 		checkbox: 'Este campo es requerido y no puede estar vacío',
 		radio: 'Este campo es requerido y no puede estar vacío',
 		file: 'Debe agregar al menos un archivo',
-		ip: 'Esto no es una dirección ip valida, por favor verifícala',
+		ip: 'Esto no es una dirección ip valida',
 		url: 'Esto no es una url correcta. <br> - ej: https://google.com'
 	},
 
@@ -190,15 +191,6 @@ var Validate = function (user_options) {
 			throw new Error('Los campos ckeckbox y radio requieren el uso de la propiedad name para poder validar correctamente.');
 
 		return jQuery(el.nodeName.toLowerCase() + '[name=' + jQuery(el).prop('name') + ']').is(':checked')
-	};
-
-  	var ip = function (text) {
-		text = text.split('.');
-
-		return text.length === 4 && text.find(function (i) {
-										if (!regs.numbers_only.test(i) || parseInt(i) > 255) 
-											return true;
-									}) === undefined;
 	};
 
 	var addLive = function (role, target) {
