@@ -119,22 +119,21 @@ Usando ```opciones.type = 'group'``` y  ```opciones.group = 'validame'```
 > Los campos ```checkbox``` y ```radio``` deben contener la propiedad ```name```
 
 
-La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden usar los ```modificadores``` a través de la directiva ```data```:
+La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden añadir ```reglas``` a través de la directiva ```data``` --> (```data-regla```):
 
 ```html
 <input type="text" name="nombres" data-min="3" data-letters-spaces />
 
-...
 <textarea data-min="2" data-max="140" data-numbers />
 ```
 
-> Los ```modificadores``` pueden ser usados en conjunto y los disponibles son:
+> Las ```reglas``` pueden ser usadas en conjunto y las disponibles son:
 > - ```min```: (int) longitud mínima del campo
 > - ```max```: (int) longitud máxima del campo
 > - ```letters```: sólo permite letras
 > - ```letters-spaces```: permite letras y espacios
 > - ```numbers```: sólo permite números
-> - ```ip```: permite direcciones válidas
+> - ```ip```: ip ej: 127.0.0.1
 > - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
 > - ```email```: dirección de correo
 > - ```url```: url ej: https://google.com
