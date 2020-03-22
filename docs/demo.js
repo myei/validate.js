@@ -27,6 +27,7 @@
 						<span class="badge badge-default control-data" data-opt="ip">ip</span>
 						<span class="badge badge-default control-data" data-opt="passwd">passwd</span>
 						<span class="badge badge-default control-data" data-opt="email">email</span>
+						<span class="badge badge-default control-data" data-opt="url">url</span>
 						<span class="badge badge-default control join-group">join-group</span>
 						<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
 						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span> <br>
@@ -67,7 +68,7 @@
 				return false;
 		}
 
-		target.data($(this).data('opt'), val);
+		target.data($(this).data('opt'), typeof val === 'string' ? val : '');
 		endisable(this);
 
 		setInstance();
