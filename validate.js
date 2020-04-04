@@ -28,13 +28,13 @@ var Validate = function (user_options) {
 
 	}, modifiers = {
 		min: function (el) {
-			return el.data('min') !== undefined ? el.val().length >= el.data('min') : true;
+			return !!el.data('min') ? el.val().length >= el.data('min') : true;
 		},
 		max: function (el) {
-			return el.data('max') !== undefined ? el.val().length <= el.data('max') : true;
+			return !!el.data('max') ? el.val().length <= el.data('max') : true;
 		},
 		email: function (el) {
-			if (_this.nodeName === 'email' || el.data('email') !== undefined) {
+			if (_this.nodeName === 'email' || !!el.data('email')) {
 				var text = el.val(), at = text.lastIndexOf('@'), dot = text.lastIndexOf('.');
 				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters.test(text.substr(dot + 1, text.length - 1));
 			} return true;
@@ -46,7 +46,7 @@ var Validate = function (user_options) {
 			return _this.nodeName === 'radio' ? checkboxRadio(el) : true;
 		},
 		default: function (el) {
-			return el.val() && el.val().length > 0;
+			return !!el.val();
 		}
 
 	}, jobs = Object.keys(regs).concat(Object.keys(modifiers))
@@ -108,7 +108,7 @@ var Validate = function (user_options) {
 	    try {
 	  		jQuery(target).each(function(index, el) {
 	  		  if (!handleField(el))
-	  		    status = false
+	  		    status = false;
 	  		});
 
 	    } catch (e) {
@@ -163,7 +163,7 @@ var Validate = function (user_options) {
 			el = jQuery(el);
 
 			this.errors = jobs.filter(job => {
-				return job in modifiers ? !modifiers[job](el) : el.data(job) !== undefined ? !regs[job].test(el.val()) : false;
+				return job in modifiers ? !modifiers[job](el) : !!el.data(job) ? !regs[job].test(el.val()) : false;
 			});
 		} catch (e) {
 			if (options.debug)
