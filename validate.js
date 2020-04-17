@@ -7,24 +7,24 @@
 var Validate = function (user_options) {
 
 	var options = {
-		type: 'all',
-		group: '',
-		required: true,
-		warn: true,
-		lang: 'default',
-		descriptions: true,
-	    animations: true,
-      	color: 'red',
-	    realTime: true,
-	    debug: false
+		type: 			'all',
+		group: 			'',
+		required: 		true,
+		warn: 			true,
+		lang: 			'default',
+		descriptions: 	true,
+	    animations: 	true,
+      	color: 			'red',
+	    realTime: 		true,
+	    debug: 			false
 
 	}, regs = {
-		letters: /^[a-zA-Z]+$/,
-		lettersSpaces: /^[A-Za-z ]+$/,
-		numbers: /^[0-9]+$/,
-		passwd: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
-		ip: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
-		url: /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
+		letters: 		/^[a-zA-Z]+$/,
+		lettersSpaces: 	/^[A-Za-z ]+$/,
+		numbers: 		/^[0-9]+$/,
+		passwd: 		/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
+		ip: 			/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
+		url: 			/^(https?:\/\/)+((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
 
 	}, modifiers = {
 		min: function (el) {
@@ -34,7 +34,7 @@ var Validate = function (user_options) {
 			return !!el.data('max') ? el.val().length <= el.data('max') : true;
 		},
 		email: function (el) {
-			if (_this.nodeName === 'email' || !!el.data('email')) {
+			if (_this.nodeName === 'email' || hasData(el, 'email')) {
 				var text = el.val(), at = text.lastIndexOf('@'), dot = text.lastIndexOf('.');
 				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters.test(text.substr(dot + 1, text.length - 1));
 			} return true;
@@ -163,7 +163,7 @@ var Validate = function (user_options) {
 			el = jQuery(el);
 
 			this.errors = jobs.filter(job => {
-				return job in modifiers ? !modifiers[job](el) : !!el.data(job) ? !regs[job].test(el.val()) : false;
+				return job in modifiers ? !modifiers[job](el) : hasData(el, job) ? !regs[job].test(el.val()) : false;
 			});
 		} catch (e) {
 			if (options.debug)
@@ -200,6 +200,10 @@ var Validate = function (user_options) {
 
 		if (jQuery(el).next().hasClass(_warn_description_class))
       		jQuery(el).next().remove();
+	};
+
+	var hasData = function (el, data) {
+		return !!el.data(data) || el.data(data) === '';
 	};
 
   	build(user_options);
