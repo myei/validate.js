@@ -15,7 +15,7 @@ Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar 
 <script src="/path/to/validate.min.js"></script>
 ```
 
-#### Definición de opciones:
+## Definición de opciones:
 
 Los siguientes son los valores por defecto, se pueden especificar sólo los valores que deseemos cambiar
 
@@ -34,7 +34,7 @@ var opciones = {
 }
 ```
 
-#### Personalización de mensajes:
+## Personalización de mensajes:
 
 Si queremos cambiar los mensajes por defecto, podemos pasar la siguiente variable en el atributo ```lang``` del objeto ```opciones```, cambiando sólo lo que deseemos personalizar:
 
@@ -58,7 +58,8 @@ var validateJs = {
   checkbox: 'Este campo es requerido y no puede estar vacío',
   radio: 'Este campo es requerido y no puede estar vacío',
   ip: 'Esto no es una dirección ip valida, por favor verifícala',
-  url: 'Esto no es una url correcta. <br> - ej: https://google.com'
+  url: 'Esto no es una url correcta. <br> - ej: https://google.com',
+  pattern: 'Esto no cumple con el patrón especificado: '
 }
 
 opciones = {
@@ -74,9 +75,16 @@ opciones = {
 };
 ```
 
-Otra forma de personalizar los mensajes es por medio de la directiva ```data-default-msg``` (mostrado sólo en caso de estar vacío):
+Otra forma de personalizar los mensajes es por medio de la directiva ```data-regla-msg``` (Las reglas disponibles las puedes consultar [aquí](#reglas-de-validación)):
 
 ```html
+<!-- Personalizando una sola regla -->
+<input type="text" data-pattern="^[0-9]+$" data-pattern-msg="Mensaje personalizado, sólo para este campo, y para la regla específicada">
+
+<!-- Personalizando varias reglas -->
+<input type="text" data-max="10" data-min="2" data-min-msg="Mensaje para regla min" data-max-msg="Mensaje para regla max" required>
+
+<!-- Mostrado sólo en caso de no usar otras reglas -->
 <input type="text" data-default-msg="Mensaje personalizado, sólo para este campo">
 ```
 
@@ -89,7 +97,7 @@ validate = Validate(opciones) // Sí ```realTime: true``, ya comienza a escuchar
 validate.itsOk();  // (ret. boolean)
 ```
 
-#### Configuración de elementos **HTML**
+## Configuración de elementos **HTML**
 
 Usando ```opciones.type = 'all'``` cubrirá todos los elementos: ```input```, ```select```, ```textarea``` sin distinción
 
@@ -119,6 +127,8 @@ Usando ```opciones.type = 'group'``` y  ```opciones.group = 'validame'```
 > Los campos ```checkbox``` y ```radio``` deben contener la propiedad ```name```
 
 
+## Reglas de validación
+
 La validación por defecto de todos los campos especificados es **vacío**, para personalizar esto se pueden añadir ```reglas``` a través de la directiva ```data``` --> (```data-regla```):
 
 ```html
@@ -137,9 +147,10 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
 > - ```email```: dirección de correo
 > - ```url```: url ej: https://google.com
+> - ```pattern```: Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
 
 
-### Live validations
+## Live validations
 
 
 También se pueden agregar validaciones de **pulsaciones de teclas**, para que sólo se permitan ciertas teclas ```role```, a una serie de elementos que contengan una  determinada clase ```target```:
