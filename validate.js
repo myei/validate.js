@@ -39,6 +39,9 @@ var Validate = function (user_options) {
 				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters.test(text.substr(dot + 1, text.length - 1));
 			} return true;
 		},
+		pattern: function (el) {
+			return hasData(el, 'pattern') ? RegExp(el.data('pattern')).test(el.val()) : true;
+		},
 		checkbox: function (el) {
 			return _this.nodeName === 'checkbox' ? checkboxRadio(el) : true;
 		},
@@ -76,7 +79,8 @@ var Validate = function (user_options) {
 		radio: 'Este campo es requerido y no puede estar vacío',
 		file: 'Debe agregar al menos un archivo',
 		ip: 'Esto no es una dirección ip valida',
-		url: 'Esto no es una url correcta. <br> - ej: https://google.com'
+		url: 'Esto no es una url correcta. <br> - ej: https://google.com',
+		pattern: 'Esto no cumple con el patrón especificado: '
 	}, _this = this,
 
 	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
@@ -151,7 +155,7 @@ var Validate = function (user_options) {
 			this.errors.splice(this.errors.indexOf('default'), 1);
 
 		this.errors.forEach(error => {
-			msg += ' - ' + options.lang[error] + (el.data(error) && el.data(error) !== '' ? el.data(error) : '') + '<br />';
+			msg += ' - ' + (el.data(error + '-msg') || options.lang[error] + (el.data(error) && el.data(error) !== '' ? el.data(error) : '')) + '<br />';
 		});
 		
 		if (!el.next(_warn_description_class).length)
