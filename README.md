@@ -21,16 +21,16 @@ Los siguientes son los valores por defecto, se pueden especificar sólo los valo
 
 ```javascript
 var opciones = {
-  type: 'all',                 // all ó group
-  group: '',                  // Nombre de la clase del grupo (requiere type: 'group')
-  required: true,        // Sólo campos requeridos
-  warn: true,              // Resaltado de campos incorrectos
-  descriptions: true,  // Descripción de los campos incorrectos (requiere warn: true)
-  lang: 'default',         // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true y descriptions: true)
-  animations: true,    // Animar los campos incorrectos (requiere warn: true)
-  color: 'red',              // (hex) color de los errores, (inlcuir #, requiere warn: true)
-  realTime: true,        // Validar al pulsar una tecla (requiere warn: true)
-  debug: false            // Mensajes de errores por consola
+  type: 'all',          // all ó group
+  group: '',            // Nombre de la clase del grupo (requiere type: 'group')
+  required: true,       // Sólo campos requeridos
+  warn: true,           // Resaltado de campos incorrectos
+  descriptions: true,   // Descripción de los campos incorrectos (requiere warn: true)
+  lang: 'default',      // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true y descriptions: true)
+  animations: true,     // Animar los campos incorrectos (requiere warn: true)
+  color: 'red',         // (hex) color de los errores, (inlcuir #, requiere warn: true)
+  realTime: true,       // Validar al pulsar una tecla (requiere warn: true)
+  debug: false          // Mensajes de errores por consola
 }
 ```
 
