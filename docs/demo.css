@@ -25,3 +25,13 @@
 	background-color: #24292e;
 	color: white;
 }
+
+.error-msg {
+	display:none;
+	color:red;
+	float: left;
+}
+
+.visible {
+	display: block;
+}

@@ -1,6 +1,7 @@
 (function(){
 	var validate;
 
+	addFields(3);
 	setInstance();
 
 	$('.validate').click(function() {
@@ -13,33 +14,7 @@
 	});
 
 	$('.add-field').click(function() {
-		var node = $(this).parent().siblings().length + 1;
-
-		$(this).parent().before(`
-			<div class="col-md-6" style="display:none" id="` + node + `">
-					<div class="toolbox text-right" style="color: #ccc; cursor: pointer;">
-						<span class="badge badge-default control-prop" data-opt="required">required</span>
-						<span class="badge badge-default control-data control-data-in" data-opt="min">min</span>
-						<span class="badge badge-default control-data control-data-in" data-opt="max">max</span>
-						<span class="badge badge-default control-data" data-opt="letters">letters</span>
-						<span class="badge badge-default control-data" data-opt="letters-spaces">letters-spaces</span>
-						<span class="badge badge-default control-data" data-opt="numbers">numbers</span>
-						<span class="badge badge-default control-data" data-opt="ip">ip</span>
-						<span class="badge badge-default control-data" data-opt="passwd">passwd</span>
-						<span class="badge badge-default control-data" data-opt="email">email</span>
-						<span class="badge badge-default control-data" data-opt="url">url</span>
-						<span class="badge badge-default control join-group">join-group</span>
-						<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
-						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span> <br>
-						<span class="badge badge-default control control-data control-data-in" data-opt="default-msg">default-msg</span>
-					</div>
-
-					<input class="form-control" placeholder="field ` + node + `">
-				</div>
-			</div>
-		`);
-
-		$('#' + node).fadeIn();
+		addFields();
 	});
 
 	$('body').delegate('.toolbox .control-prop', 'click', function() {
@@ -58,14 +33,13 @@
 		if ($(this).hasClass('badge-primary')) {
 			endisable(this);
 			target.removeData($(this).data('opt'));
+			$('.validate').trigger('click');
 			return true;
 		}
 
 		if ($(this).hasClass('control-data-in')) {
 			val = prompt($(this).data('opt'));
-
-			if (val === null || val === '')
-				return false;
+			if (!val) return false;
 		}
 
 		target.data($(this).data('opt'), typeof val === 'string' ? val : '');
@@ -105,10 +79,10 @@
 		if (!target.hasClass('validate-me'))
 			target.addClass('validate-me');
 		else
-			target.removeClass('validate-me');
+			target.unbind('keyup change').removeClass('validate-me validate-warn').siblings('.validate-warn-description').remove();
 
-			setInstance();
-			$('.validate').trigger('click');
+		setInstance();
+		$('.validate').trigger('click');
 	});
 
 	$('body').delegate('.control-live', 'click', function() {
@@ -132,6 +106,9 @@
 		} else
 			$(this).removeClass('badge-primary').addClass('badge-default');
 
+		if (!!$(el).data('msg'))
+			$(el).parent().find('.' + $(el).data('opt') + '-msg').toggle()
+				 .parent().find('.error-msg').eq(0).css('display', $(el).parent().find('.error-msg:visible').length > 0 ? 'none' : 'block');
 	};
 
 	$('.dark-btn').click(function() {
@@ -144,18 +121,58 @@
 		}
 	});
 
-	function setInstance () {
+	function setInstance() {
 		validate = Validate({
-											type: $('#target').val(),
-											group: 'validate-me',
-											required: ($('#required').val() == 'true'),
-											warn: ($('#warn').val() == 'true'),
-											debug: ($('#debug').val() == 'true'),
-											descriptions: ($('#descriptions').val() == 'true'),
-											animations: ($('#animations').val() == 'true'),
-											color: $('#color').val(),
-											realTime: ($('#realTime').val() == 'true')
-										});
-	};
+						type: $('#target').val(),
+						group: 'validate-me',
+						required: ($('#required').val() == 'true'),
+						warn: ($('#warn').val() == 'true'),
+						debug: ($('#debug').val() == 'true'),
+						descriptions: ($('#descriptions').val() == 'true'),
+						animations: ($('#animations').val() == 'true'),
+						color: $('#color').val(),
+						realTime: ($('#realTime').val() == 'true')
+					});
+	}
 
+	function addFields(count) {
+		var node = $('.add-field').parent().siblings().length;
+		for (var i = 1; i < (count || 1) + 1; i++)
+			$('.add-field').parent().before(`
+				<div class="col-md-6" id="` + (node + i) + `">
+					<div class="toolbox text-right" style="color: #ccc; cursor: pointer;">
+						<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="min">min</span>
+						<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="max">max</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="letters">letters</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="letters-spaces">letters-spaces</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="numbers">numbers</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="ip">ip</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="passwd">passwd</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="email">email</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="url">url</span>
+						<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="pattern">pattern</span> <br>
+						
+						<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
+						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span> <br>
+						
+						<span class="badge badge-default control-prop" data-opt="required">required</span>
+						<span class="badge badge-default control join-group badge-primary">join-group</span> <br>
+						
+						<span class="badge badge-default control control-data control-data-in error-msg visible" data-opt="default-msg">default-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg min-msg" data-opt="min-msg">min-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg max-msg" data-opt="max-msg">max-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg letters-msg" data-opt="letters-msg">letters-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg letters-spaces-msg" data-opt="letters-spaces-msg">letters-spaces-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg numbers-msg" data-opt="numbers-msg">numbers-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg ip-msg" data-opt="ip-msg">ip-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg passwd-msg" data-opt="passwd-msg">passwd-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg email-msg" data-opt="email-msg">email-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg url-msg" data-opt="url-msg">url-msg</span>
+						<span class="badge badge-default control control-data control-data-in error-msg pattern-msg" data-opt="pattern-msg">pattern-msg</span>
+					</div>
+
+					<input class="form-control validate-me" placeholder="field ` + (node + i) + `">
+				</div>
+			`);
+	}
 })();
