@@ -91,7 +91,7 @@ Otra forma de personalizar los mensajes es por medio de la directiva ```data-reg
 #### Ejecutando validación:
 
 ```javascript
-validate = Validate(opciones) // Sí ```realTime: true``, ya comienza a escuchar en cada campo
+validate = Validate(opciones) // Sí ```realTime: true```, ya comienza a escuchar en cada campo
 
 // Para verificar el estatus de la validación global es de la siguiente forma:
 validate.itsOk();  // (ret. boolean)
@@ -148,6 +148,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```email```: dirección de correo
 > - ```url```: url ej: https://google.com
 > - ```pattern```: Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
+> - ```optional```: Será ignorado mientras este vacío
 
 
 ## Live validations

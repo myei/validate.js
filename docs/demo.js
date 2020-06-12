@@ -156,7 +156,8 @@
 						<span class="badge badge-default control control-live" data-opt="numeric">numeric</span> <br>
 						
 						<span class="badge badge-default control-prop" data-opt="required">required</span>
-						<span class="badge badge-default control join-group badge-primary">join-group</span> <br>
+						<span class="badge badge-default control join-group badge-primary">join-group</span>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="optional">optional</span> <br>
 						
 						<span class="badge badge-default control control-data control-data-in error-msg visible" data-opt="default-msg">default-msg</span>
 						<span class="badge badge-default control control-data control-data-in error-msg min-msg" data-opt="min-msg">min-msg</span>

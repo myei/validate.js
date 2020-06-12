@@ -165,6 +165,7 @@ var Validate = function (user_options) {
 	var field = function (el) {
 		try {
 			el = jQuery(el);
+			if (hasData(el, 'optional') && !modifiers['default'](el)) return true;
 
 			this.errors = jobs.filter(job => {
 				return job in modifiers ? !modifiers[job](el) : hasData(el, job) ? !regs[job].test(el.val()) : false;
