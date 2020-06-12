@@ -88,7 +88,7 @@ Otra forma de personalizar los mensajes es por medio de la directiva ```data-reg
 <input type="text" data-default-msg="Mensaje personalizado, sólo para este campo">
 ```
 
-#### Ejecutando validación:
+## Ejecutar validaciones:
 
 ```javascript
 validate = Validate(opciones) // Sí ```realTime: true```, ya comienza a escuchar en cada campo
