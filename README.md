@@ -1,6 +1,6 @@
 # Validate.js
 
-Este plugin permite la validación de los casos más comunes contemplando múltiples elementos sin necesidad de tenerlos dentro de un ```<form>```:
+Este es un plugin **ligero**, **easy-to-use**, que permite la validación **personalizable y con pocas configuraciones** de los casos más comunes contemplando múltiples elementos **en tiempo real** y sin necesidad de tenerlos dentro de un ```<form>```:
 
 
 ## Ejemplos de uso:
@@ -13,6 +13,15 @@ Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar 
 <script src="/path/to/jquery.min.js"></script>
 <script src="/path/to/translate.min.js"></script> <!-- Opcional -->
 <script src="/path/to/validate.min.js"></script>
+```
+
+## Ejecutar validaciones:
+
+```javascript
+validate = Validate(opciones) // Sí ```realTime: true```, ya comienza a escuchar en cada campo
+
+// Para verificar el estatus de la validación global es de la siguiente forma:
+validate.itsOk();  // (ret. boolean)
 ```
 
 ## Definición de opciones:
@@ -36,7 +45,7 @@ var opciones = {
 
 ## Personalización de mensajes:
 
-Si queremos cambiar los mensajes por defecto, podemos pasar la siguiente variable en el atributo ```lang``` del objeto ```opciones```, cambiando sólo lo que deseemos personalizar:
+A continuación se muestran los mensajes por defecto. Si queremos cambiarlos, podemos pasar la siguiente variable en el atributo ```lang``` del objeto [```opciones```](#definición-de-opciones), únicamente con los mensajes que queremos personalizar:
 
 > Sí se usa **[Translate.js](https://github.com/myei/translate.js)** se debe incluir este objeto en cada idioma
 
@@ -52,7 +61,8 @@ var validateJs = {
   password: 'Este campo es requerido y no puede estar vacío',
   passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
   email: 'Debe ser un email válido',
-  'select-one': 'Este campo es requerido y no puede estar vacío',
+  'select-one': 'Debe seleccionar alguna opción de la lista',
+  'select-multiple': 'Debe seleccionar al menos una opción de la lista',
   textarea: 'Este campo es requerido y no puede estar vacío',
   hidden: 'Este campo es requerido y no puede estar vacío',
   checkbox: 'Este campo es requerido y no puede estar vacío',
@@ -86,15 +96,6 @@ Otra forma de personalizar los mensajes es por medio de la directiva ```data-reg
 
 <!-- Mostrado sólo en caso de no usar otras reglas -->
 <input type="text" data-default-msg="Mensaje personalizado, sólo para este campo">
-```
-
-## Ejecutar validaciones:
-
-```javascript
-validate = Validate(opciones) // Sí ```realTime: true```, ya comienza a escuchar en cada campo
-
-// Para verificar el estatus de la validación global es de la siguiente forma:
-validate.itsOk();  // (ret. boolean)
 ```
 
 ## Configuración de elementos **HTML**

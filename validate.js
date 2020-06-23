@@ -12,15 +12,15 @@ var Validate = function (user_options) {
 		required: 		true,
 		warn: 			true,
 		lang: 			'default',
-		descriptions: 	true,
-	    animations: 	true,
-      	color: 			'red',
-	    realTime: 		true,
-	    debug: 			false
+		descriptions:	true,
+		animations:		true,
+		color:			'red',
+		realTime:		true,
+		debug:			false
 
 	}, regs = {
 		letters: 		/^[a-zA-Z]+$/,
-		lettersSpaces: 	/^[A-Za-z ]+$/,
+		lettersSpaces:	/^[A-Za-z ]+$/,
 		numbers: 		/^[0-9]+$/,
 		passwd: 		/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
 		ip: 			/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
@@ -49,7 +49,7 @@ var Validate = function (user_options) {
 			return _this.nodeName === 'radio' ? checkboxRadio(el) : true;
 		},
 		default: function (el) {
-			return !!el.val();
+			return !!el.val()[0];
 		}
 
 	}, jobs = Object.keys(regs).concat(Object.keys(modifiers))
@@ -71,7 +71,8 @@ var Validate = function (user_options) {
 		text: 'Este campo es requerido y no puede estar vacío',
 		password: 'Este campo es requerido y no puede estar vacío',
 		passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
-		'select-one': 'Este campo es requerido y no puede estar vacío',
+		'select-one': 'Debe seleccionar alguna opción de la lista',
+		'select-multiple': 'Debe seleccionar al menos una opción de la lista',
 		email: 'Debe ser un email válido',
 		textarea: 'Este campo es requerido y no puede estar vacío',
 		hidden: 'Este campo es requerido y no puede estar vacío',
@@ -91,14 +92,15 @@ var Validate = function (user_options) {
 
 	var build = function (user_options) {
 		try {
-		  options = Object.assign(options, user_options);
-		  target = options.type === 'group' ? options.required ? '.' + options.group + '[required]' : '.' + options.group : options.required ? target_req : target;
+			options = Object.assign(options, user_options);
+			target = options.type === 'group' ? 
+						options.required ? '.' + options.group + '[required]' : '.' + options.group : options.required ? target_req : target;
 
-		  setLang(options.lang);
-		  jQuery('<style>.validate-warn { border-color: ' + options.color + '; } .validate-warn-description { color: ' + options.color + '; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
+			setLang(options.lang);
+			jQuery('<style>.validate-warn { border-color: ' + options.color + '; } .validate-warn-description { color: ' + options.color + '; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
 
-		  if (options.realTime)
-		    jQuery(target).bind('keyup change', function() { handleField(this, true); });
+			if (options.realTime)
+				jQuery(target).bind('keyup change', function() { handleField(this, true); });
 
 		} catch (e) {
 			if (options.debug)
@@ -109,16 +111,16 @@ var Validate = function (user_options) {
 	var itsOk = function () {
 		var status = true;
 
-	    try {
-	  		jQuery(target).each(function(index, el) {
-	  		  if (!handleField(el))
-	  		    status = false;
-	  		});
+		try {
+			jQuery(target).each(function(index, el) {
+				if (!handleField(el))
+					status = false;
+			});
 
-	    } catch (e) {
-	    	if (options.debug)
-	        	console.error('Excepción validando con el target especificado: ' + target + ' e: ' + e);
-	    }
+		} catch (e) {
+			if (options.debug)
+				console.error('Excepción validando con el target especificado: ' + target + ' e: ' + e);
+		}
 
 		return status;
 	};
@@ -194,14 +196,14 @@ var Validate = function (user_options) {
 		this.nodeName = el.type;
   		var status = field(el);
 
-	    clean(el);
-	    addWarn(el, !status, live);
+		clean(el);
+		addWarn(el, !status, live);
 
-	    return status;
+		return status;
 	};
 
 	var clean = function (el) {
-    	jQuery(el).removeClass(_warn_class);
+		jQuery(el).removeClass(_warn_class);
 
 		if (jQuery(el).next().hasClass(_warn_description_class))
       		jQuery(el).next().remove();
