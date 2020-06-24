@@ -2,6 +2,7 @@
 
 Este es un plugin **ligero**, **easy-to-use**, que permite la validación **personalizable y con pocas configuraciones** de los casos más comunes contemplando múltiples elementos **en tiempo real** y sin necesidad de tenerlos dentro de un ```<form>```:
 
+Wanna see this in [English](https://github.com/myei/validate.js/blob/master/README.en.md)?
 
 ## Ejemplos de uso:
 
@@ -38,7 +39,7 @@ var opciones = {
   lang: 'default',      // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true y descriptions: true)
   animations: true,     // Animar los campos incorrectos (requiere warn: true)
   color: 'red',         // (hex) color de los errores, (inlcuir #, requiere warn: true)
-  realTime: true,       // Validar al pulsar una tecla (requiere warn: true)
+  realTime: true,       // Validar al escribir (requiere warn: true)
   debug: false          // Mensajes de errores por consola
 }
 ```
@@ -148,7 +149,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```passwd```: al menos una letra mayúscula, al menos una letra minúscula, al menos un carácter numérico, al menos un carácter especial (!@#._-$%^&*)
 > - ```email```: dirección de correo
 > - ```url```: url ej: https://google.com
-> - ```pattern```: Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
+> - ```pattern```: (string) Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
 > - ```optional```: Será ignorado mientras este vacío
 
 
