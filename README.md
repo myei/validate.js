@@ -152,6 +152,34 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```pattern```: (string) Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
 > - ```optional```: Será ignorado mientras este vacío
 
+## Reglas Personalizadas:
+
+Necesitas validar un caso que no existe en las reglas disponibles? No hay problema, puedes añadir las tuyas a través del método `addRule(nombre, callback, mensaje)`:
+
+> Consideraciones del `callback`:
+> - Recibe como argumento el `elemento` del DOM (representa: jQuery(campo))
+> - Debe retornar un valor `boolean` (siendo `true` cuando la validación sea exitosa)
+
+
+```javascript
+// Primero creamos la instancia
+var validate = Validate(opciones)
+
+// Añadimos las reglas que necesitamos
+validate.addRule('isPair', 
+                  function (e) {
+                      return parseInt(e.val()) % 2 === 0; 
+                  }, 
+                  'Este número no es par');
+
+// Después podemos ejecutar las validaciones
+validate.itsOk();
+```
+
+Ahora en `HTML` podemos asignar las reglas personalizadas como lo hicimos antes `data-nombre-regla`:
+```html
+<input type="text" data-is-pair>
+```
 
 ## Live validations
 
@@ -164,7 +192,7 @@ También se pueden agregar validaciones de **pulsaciones de teclas**, para que s
 
 
 ```javascript
-Validate().addLive(role, target);
+// Validate().addLive(role, target);
 
 Validate().addLive('numeric', 'validame'); // Ej: <input type="text" class="validame">
 ```

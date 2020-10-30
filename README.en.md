@@ -153,6 +153,36 @@ The default validation for the specified fields is **empty**, to customize this 
 > - ```pattern```: (string) receives a custom regex, e.g.: ^[0-9]+$
 > - ```optional```: it will be ignored while it's empty
 
+## Custom rules:
+
+Do you need to validate another thing that it's not within the available rules? No problem, you can add your own rules through this method `addRule(name, callback, message)`:
+
+> `callback` considerations:
+> - It receives the DOM ʻelement` as an argument (It represents: jQuery(field))
+> - It must return a `boolean` value (being `true` when validation is successful)
+
+
+```javascript
+// Create the instansce first
+var validate = Validate(opciones)
+
+// Add as much as you need
+validate.addRule('isPair', 
+                  function (e) {
+                      return parseInt(e.val()) % 2 === 0; 
+                  }, 
+                  'This number isn\'t pair');
+
+// Then we can execute the validations
+validate.itsOk();
+```
+
+Now in `HTML` we can assign these custom rules as we do it before `data-rule-name`:
+```html
+<input type="text" data-is-pair>
+```
+
+
 
 ## Live validations
 

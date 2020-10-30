@@ -52,7 +52,7 @@ var Validate = function (user_options) {
 			return !!el.val()[0];
 		}
 
-	}, jobs = Object.keys(regs).concat(Object.keys(modifiers))
+	}
 
 	,  live = {
 		alphabetic: function (e) {
@@ -104,7 +104,7 @@ var Validate = function (user_options) {
 
 		} catch (e) {
 			if (options.debug)
-				console.error('Excepción construyendo instancia con las opciones suministradas:', options, e.message);
+				console.error('validate.js: Excepción construyendo instancia con las opciones suministradas:', options, e.message);
 		}
 	};
 
@@ -119,7 +119,7 @@ var Validate = function (user_options) {
 
 		} catch (e) {
 			if (options.debug)
-				console.error('Excepción validando con el target especificado: ' + target + ' e: ' + e);
+				console.error('validate.js: Excepción validando con el target especificado: ' + target + ' e: ' + e);
 		}
 
 		return status;
@@ -166,6 +166,8 @@ var Validate = function (user_options) {
 
 	var field = function (el) {
 		try {
+			var jobs = Object.keys(regs).concat(Object.keys(modifiers));
+
 			el = jQuery(el);
 			if (hasData(el, 'optional') && !modifiers['default'](el)) return true;
 
@@ -174,7 +176,7 @@ var Validate = function (user_options) {
 			});
 		} catch (e) {
 			if (options.debug)
-				console.error('Excepción validando campo: ' + e);
+				console.error('validate.js: Excepción validando campo: ' + e);
 		}
 
 		return this.errors.length === 0;
@@ -185,11 +187,6 @@ var Validate = function (user_options) {
 			throw new Error('Los campos ckeckbox y radio requieren el uso de la propiedad name para poder validar correctamente.');
 
 		return jQuery(el.prop('nodeName').toLowerCase() + '[type=' + this.nodeName + '][name=' + el.prop('name') + ']').is(':checked');
-	};
-
-	var addLive = function (role, target) {
-		target = typeof target === 'undefined' ? '.validate-' + role : '.' + target;
-		jQuery(target).keydown(live[role]);
 	};
 
   	var handleField = function (el, live) {
@@ -213,12 +210,35 @@ var Validate = function (user_options) {
 		return !!el.data(data) || el.data(data) === '';
 	};
 
+	var addLive = function (role, target) {
+		target = typeof target === 'undefined' ? '.validate-' + role : '.' + target;
+		jQuery(target).keydown(live[role]);
+	};
+	
+	var addRule = function (name, callback, message) {
+		if (name in modifiers) {
+			console.warn('validate.js: La regla ' + name.toUpperCase() + ' ya existe y no puede sobreescribirla');
+			return;
+		}
+		
+		if (!Array.from(arguments).every(arg => !!arg)) {
+			console.warn('validate.js: Para añadir reglas personalizadas debe especificar: name, callback, message');
+			return;
+		}
+
+		modifiers[name] = callback;
+		lang[name] = message;
+	};
+
   	build(user_options);
 
 
 	return {
 		addLive: function (role, target) {
 			return addLive(role, target);
+		},
+		addRule: function (name, callback, message) {
+			addRule(name, callback, message);
 		},
 		itsOk: function () {
 			return itsOk();
