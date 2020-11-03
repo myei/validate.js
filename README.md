@@ -39,6 +39,7 @@ var opciones = {
   lang: 'default',      // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true y descriptions: true)
   animations: true,     // Animar los campos incorrectos (requiere warn: true)
   color: 'red',         // (hex) color de los errores, (inlcuir #, requiere warn: true)
+  align: 'right',       // alineación de los mensajes
   realTime: true,       // Validar al escribir (requiere warn: true)
   debug: false          // Mensajes de errores por consola
 }

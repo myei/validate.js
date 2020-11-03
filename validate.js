@@ -15,6 +15,7 @@ var Validate = function (user_options) {
 		descriptions:	true,
 		animations:		true,
 		color:			'red',
+		align:			'right',
 		realTime:		true,
 		debug:			false
 
@@ -96,7 +97,7 @@ var Validate = function (user_options) {
 						options.required ? '.' + options.group + '[required]' : '.' + options.group : options.required ? target_req : target;
 
 			setLang(options.lang);
-			jQuery('<style>.validate-warn { border-color: ' + options.color + '; } .validate-warn-description { color: ' + options.color + '; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: right; }</style>').appendTo('head');
+			jQuery('<style>.validate-warn { border-color: ' + options.color + '; } .validate-warn-description { color: ' + options.color + '; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: ' + (options.align) + '; }</style>').appendTo('head');
 
 			if (options.realTime)
 				jQuery(target).bind('keyup change', function() { handleField(this, true); });
