@@ -26,21 +26,21 @@ var Validate = function (user_options) {
 		ip: 			/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
 		url: 			/^(https?:\/\/)+((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
 
-	}, modifiers = {
-		min: function (el) {
-			return !!el.data('min') ? el.val().length >= el.data('min') : true;
+	}, rules = {
+		min: function (el, arg, doIt) {
+			return doIt ? el.val().length >= arg : true;
 		},
-		max: function (el) {
-			return !!el.data('max') ? el.val().length <= el.data('max') : true;
+		max: function (el, arg, doIt) {
+			return doIt ? el.val().length <= arg : true;
 		},
-		email: function (el) {
-			if (_this.nodeName === 'email' || hasData(el, 'email')) {
+		email: function (el, arg, doIt) {
+			if (_this.nodeName === 'email' || doIt) {
 				var text = el.val(), at = text.lastIndexOf('@'), dot = text.lastIndexOf('.');
 				return at > 0 && dot > at + 1 && text.length > dot + 2 && regs.letters.test(text.substr(dot + 1, text.length - 1));
 			} return true;
 		},
-		pattern: function (el) {
-			return hasData(el, 'pattern') ? RegExp(el.data('pattern')).test(el.val()) : true;
+		pattern: function (el, arg, doIt) {
+			return doIt ? RegExp(arg).test(el.val()) : true;
 		},
 		checkbox: function (el) {
 			return _this.nodeName === 'checkbox' ? checkboxRadio(el) : true;
@@ -52,9 +52,7 @@ var Validate = function (user_options) {
 			return !!el.val()[0];
 		}
 
-	}
-
-	,  live = {
+	}, live = {
 		alphabetic: function (e) {
 	  		return !(![8, 16, 32].includes(e.keyCode) && (e.keyCode < 69 || e.keyCode > 90));
 	  	},
@@ -62,7 +60,8 @@ var Validate = function (user_options) {
 	  		return !(e.keyCode != 8 && !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)));
 	  	}
 
-	}, lang = {
+	}, custom = {}
+	, lang = {
 		min: 'La longitud de caracters mínima para este campo es de: ',
 		max: 'La longitud de caracters máxima para este campo es de: ',
 		numbers: 'Este campo solo permite números',
@@ -166,13 +165,16 @@ var Validate = function (user_options) {
 
 	var field = function (el) {
 		try {
-			var jobs = Object.keys(regs).concat(Object.keys(modifiers));
+			var jobs = Object.keys(regs).concat(Object.keys(rules)).concat(Object.keys(custom));
 
 			el = jQuery(el);
-			if (hasData(el, 'optional') && !modifiers['default'](el)) return true;
+			if (hasData(el, 'optional') && !rules['default'](el)) return true;
 
 			this.errors = jobs.filter(job => {
-				return job in modifiers ? !modifiers[job](el) : hasData(el, job) ? !regs[job].test(el.val()) : false;
+				var doIt = hasData(el, job);
+				return job in rules ? !rules[job](el, el.data(job), doIt) 
+									: job in regs && doIt ? !regs[job].test(el.val()) 
+														  : doIt ? !custom[job](el, el.data(job)) : false;
 			});
 		} catch (e) {
 			if (options.debug)
@@ -216,7 +218,7 @@ var Validate = function (user_options) {
 	};
 	
 	var addRule = function (name, callback, message) {
-		if (name in modifiers) {
+		if (name in rules) {
 			console.warn('validate.js: La regla ' + name.toUpperCase() + ' ya existe y no puede sobreescribirla');
 			return;
 		}
@@ -226,7 +228,7 @@ var Validate = function (user_options) {
 			return;
 		}
 
-		modifiers[name] = callback;
+		custom[name] = callback;
 		lang[name] = message;
 	};
 

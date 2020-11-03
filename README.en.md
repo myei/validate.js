@@ -158,7 +158,9 @@ The default validation for the specified fields is **empty**, to customize this 
 Do you need to validate another thing that it's not within the available rules? No problem, you can add your own rules through this method `addRule(name, callback, message)`:
 
 > `callback` considerations:
-> - It receives the DOM ʻelement` as an argument (It represents: jQuery(field))
+> - Receives two optional arguments `(e, arg)`:
+>   - **e**: the DOM `element` as an argument (It represents: jQuery(field))
+>   - **arg**: Argument for the rule (ej: data-my-rule="arg")
 > - It must return a `boolean` value (being `true` when validation is successful)
 
 

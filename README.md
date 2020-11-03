@@ -157,7 +157,9 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 Necesitas validar un caso que no existe en las reglas disponibles? No hay problema, puedes añadir las tuyas a través del método `addRule(nombre, callback, mensaje)`:
 
 > Consideraciones del `callback`:
-> - Recibe como argumento el `elemento` del DOM (representa: jQuery(campo))
+> - Recibe dos parámetros opcionales `(e, arg)`:
+>   - **e**: El `elemento` del DOM (representa: jQuery(campo))
+>   - **arg**: Insumo adicional para la regla (ej: data-mi-rergla="insumo")
 > - Debe retornar un valor `boolean` (siendo `true` cuando la validación sea exitosa)
 
 
