@@ -63,8 +63,8 @@ var Validate = function (user_options) {
 
 	}, custom = {}
 	, lang = {
-		min: 'La longitud de caracters mínima para este campo es de: ',
-		max: 'La longitud de caracters máxima para este campo es de: ',
+		min: 'La longitud de caracteres mínima para este campo es de: ',
+		max: 'La longitud de caracteres máxima para este campo es de: ',
 		numbers: 'Este campo solo permite números',
 		letters: 'Este campo solo permite letras (sin espacios)',
 		lettersSpaces: 'Este campo solo permite letras',
@@ -97,7 +97,7 @@ var Validate = function (user_options) {
 						options.required ? '.' + options.group + '[required]' : '.' + options.group : options.required ? target_req : target;
 
 			setLang(options.lang);
-			jQuery('<style>.validate-warn { border-color: ' + options.color + '; } .validate-warn-description { color: ' + options.color + '; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: ' + (options.align) + '; }</style>').appendTo('head');
+			jQuery('<style>.validate-warn { border-color: ' + options.color + ' !important; } .validate-warn-description { color: ' + options.color + ' !important; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: ' + (options.align) + '; }</style>').appendTo('head');
 
 			if (options.realTime)
 				jQuery(target).bind('keyup change', function() { handleField(this, true); });
