@@ -55,10 +55,10 @@ var Validate = function (user_options) {
 
 	}, live = {
 		alphabetic: function (e) {
-	  		return !(![8, 16, 32].includes(e.keyCode) && (e.keyCode < 69 || e.keyCode > 90));
+	  		return regs.lettersSpaces.test(e.key) || defaultKeys.includes(e.key.toLowerCase());
 	  	},
 		numeric: function (e) {
-	  		return !(e.keyCode != 8 && !((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)));
+			return regs.numbers.test(e.key) || defaultKeys.includes(e.key.toLowerCase());
 	  	}
 
 	}, custom = {}
@@ -86,7 +86,8 @@ var Validate = function (user_options) {
 
 	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
 	warn_description_class = '.validate-warn-description', _warn_description_class = warn_description_class.substr(1),
-  	target = 'input, select, textarea', target_req = 'input[required], select[required], textarea[required]';
+	target = 'input, select, textarea', target_req = 'input[required], select[required], textarea[required]',
+	defaultKeys = ['tab', 'backspace', 'enter', 'home', 'end', 'pageup', 'pagedown'];
 
 
 
