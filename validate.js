@@ -157,7 +157,7 @@ var Validate = function (user_options) {
 		if (this.errors.indexOf('default') != -1) 
 			this.errors.splice(this.errors.indexOf('default'), 1);
 
-		this.errors.forEach(error => {
+		this.errors.forEach(function (error) {
 			msg += ' - ' + (el.data(error + '-msg') || options.lang[error] + (el.data(error) && el.data(error) !== '' ? el.data(error) : '')) + '<br />';
 		});
 		
@@ -172,7 +172,7 @@ var Validate = function (user_options) {
 			el = jQuery(el);
 			if (hasData(el, 'optional') && !rules['default'](el)) return true;
 
-			this.errors = jobs.filter(job => {
+			this.errors = jobs.filter(function (job) {
 				var doIt = hasData(el, job);
 				return job in rules ? !rules[job](el, el.data(job), doIt) 
 									: job in regs && doIt ? !regs[job].test(el.val()) 
@@ -225,7 +225,7 @@ var Validate = function (user_options) {
 			return;
 		}
 		
-		if (!Array.from(arguments).every(arg => !!arg)) {
+		if (!Array.from(arguments).every(function (arg) { return !!arg; })) {
 			console.warn('validate.js: Para añadir reglas personalizadas debe especificar: name, callback, message');
 			return;
 		}
