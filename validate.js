@@ -87,7 +87,7 @@ var Validate = function (user_options) {
 	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
 	warn_description_class = '.validate-warn-description', _warn_description_class = warn_description_class.substr(1),
 	target = 'input, select, textarea', target_req = 'input[required], select[required], textarea[required]',
-	defaultKeys = ['tab', 'backspace', 'enter', 'home', 'end', 'pageup', 'pagedown'];
+	defaultKeys = ['tab', 'backspace', 'delete', 'enter', 'home', 'end', 'pageup', 'pagedown'];
 
 
 
@@ -216,7 +216,7 @@ var Validate = function (user_options) {
 
 	var addLive = function (role, target) {
 		target = typeof target === 'undefined' ? '.validate-' + role : '.' + target;
-		jQuery(target).keydown(live[role]);
+		jQuery('body').on('keydown keypress', target, live[role]);
 	};
 	
 	var addRule = function (name, callback, message) {
