@@ -120,7 +120,7 @@ var Validate = function (user_options) {
 
 		} catch (e) {
 			if (options.debug)
-				console.error('validate.js: Excepción validando con el target especificado: ' + target + ' e: ' + e);
+				console.error('validate.js: Excepción validando con el target especificado:', target, 'e:', e.message);
 		}
 
 		return status;
@@ -180,7 +180,7 @@ var Validate = function (user_options) {
 			});
 		} catch (e) {
 			if (options.debug)
-				console.error('validate.js: Excepción validando campo: ' + e);
+				console.error('validate.js: Excepción validando campo: ', el, ' e: ', e.message);
 		}
 
 		return this.errors.length === 0;
