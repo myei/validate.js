@@ -23,6 +23,7 @@ var Validate = function (user_options) {
 		letters: 		/^[a-zA-Z]+$/,
 		lettersSpaces:	/^[A-Za-z ]+$/,
 		numbers: 		/^[0-9]+$/,
+		lettersNumbers: /^[a-zA-Z0-9]+$/,
 		passwd: 		/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#._\-\$%\^&\*])(?=.{1,})/,
 		ip: 			/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
 		url: 			/^(https?:\/\/)+((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(\:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/
@@ -59,6 +60,9 @@ var Validate = function (user_options) {
 	  	},
 		numeric: function (e) {
 			return regs.numbers.test(e.key) || defaultKeys.includes(e.key.toLowerCase());
+		},
+		alphanumeric: function (e) {
+			return regs.lettersNumbers.test(e.key) || defaultKeys.includes(e.key.toLowerCase());
 	  	}
 
 	}, custom = {}
@@ -68,6 +72,7 @@ var Validate = function (user_options) {
 		numbers: 'Este campo solo permite números',
 		letters: 'Este campo solo permite letras (sin espacios)',
 		lettersSpaces: 'Este campo solo permite letras',
+		lettersNumbers: 'Este campo permite letras y números (sin espacios)',
 		text: 'Este campo es requerido y no puede estar vacío',
 		password: 'Este campo es requerido y no puede estar vacío',
 		passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
