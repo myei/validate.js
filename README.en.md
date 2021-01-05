@@ -60,6 +60,7 @@ var validateJs = {
   numbers: 'Este campo solo permite números',
   letters: 'Este campo solo permite letras (sin espacios)',
   lettersSpaces: 'Este campo solo permite letras',
+  lettersNumbers: 'Este campo permite letras y números (sin espacios)',
   text: 'Este campo es requerido y no puede estar vacío',
   password: 'Este campo es requerido y no puede estar vacío',
   passwd: 'Al menos una letra mayúscula <br> - Al menos una letra minúscula <br> - Al menos un carácter numérico <br> - Al menos un carácter especial (!@#._-$%^&*)',
@@ -70,8 +71,9 @@ var validateJs = {
   hidden: 'Este campo es requerido y no puede estar vacío',
   checkbox: 'Este campo es requerido y no puede estar vacío',
   radio: 'Este campo es requerido y no puede estar vacío',
+  file: 'Debe agregar al menos un archivo',
   ip: 'Esto no es una dirección ip valida, por favor verifícala',
-  url: 'Esto no es una url correcta. <br> - Ej.: https://google.com',
+  url: 'Esto no es una url correcta. <br> - ej: https://google.com',
   pattern: 'Esto no cumple con el patrón especificado: '
 }
 
@@ -147,6 +149,7 @@ The default validation for the specified fields is **empty**, to customize this 
 > - ```letters```: only allows letters
 > - ```letters-spaces```: only allows letters and blank spaces
 > - ```numbers```: only allows numbers
+> - ```letters-numbers```: allows letters and numbers
 > - ```ip```: ip address e.g.: 127.0.0.1
 > - ```passwd```: at least one uppercase, at least one lowercase, at least one number, at least one special character (!@#._-$%^&*)
 > - ```email```: email address
@@ -194,6 +197,7 @@ Also **keystrokes validations** can be added in order to increase the control ov
 > The availabe ```roles``` are listed below:
 > - ```alphabetic```: only allows letters keys
 > - ```numeric```: only allows numeric keys
+> - ```alphanumeric```: allows numeric and letters keys
 
 
 ```javascript
