@@ -1,8 +1,7 @@
 /**
  *	Validate.js
- *
- *	@author:
- *  	https://github.com/myei/validate.js
+ *										
+ *  										 	https://github.com/myei/validate.js
  */
 var Validate = function (user_options) {
 
@@ -11,7 +10,7 @@ var Validate = function (user_options) {
 		group: 			'',
 		required: 		true,
 		warn: 			true,
-		lang: 			'default',
+		lang: 			{},
 		descriptions:	true,
 		animations:		true,
 		color:			'red',
@@ -132,7 +131,8 @@ var Validate = function (user_options) {
 	};
 
 	var setLang = function (_lang) {
-		options.lang = _lang === 'translateJs' ? Translate.get('validateJs') : _lang;
+		if (typeof _lang != 'object' && options.debug)
+			console.error('validate.js: options.lang debe ser JSON:', _lang);
 
 		options.lang = Object.assign(lang, options.lang);
 	};

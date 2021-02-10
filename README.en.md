@@ -36,7 +36,7 @@ var options = {
   required: true,       // only required fields
   warn: true,           // highlights errored fields
   descriptions: true,   // shows errors descriptions (requires warn: true)
-  lang: 'default',      // custom JSON, 'translateJs' or 'default' (requires warn: true and descriptions: true)
+  lang: {},             // custom JSON (requires warn: true and descriptions: true)
   animations: true,     // shows animations on errored fields (requires warn: true)
   color: 'red',         // (hex) error color, (must include #, requires warn: true)
   align: 'right',       // messages alignment

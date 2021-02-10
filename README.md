@@ -36,7 +36,7 @@ var opciones = {
   required: true,       // Sólo campos requeridos
   warn: true,           // Resaltado de campos incorrectos
   descriptions: true,   // Descripción de los campos incorrectos (requiere warn: true)
-  lang: 'default',      // JSON personalizado, 'translateJs' ó 'default' (requiere warn: true y descriptions: true)
+  lang: {},             // JSON personalizado (requiere warn: true y descriptions: true)
   animations: true,     // Animar los campos incorrectos (requiere warn: true)
   color: 'red',         // (hex) color de los errores, (inlcuir #, requiere warn: true)
   align: 'right',       // alineación de los mensajes
