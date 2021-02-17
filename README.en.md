@@ -181,6 +181,8 @@ validate.addRule('isPair',
 
 // Then we can execute the validations
 validate.itsOk();
+
+validate.reset(); // Resets all validation and messages, if we need it to
 ```
 
 Now in `HTML` we can assign these custom rules as we do it before `data-rule-name`:
@@ -201,7 +203,7 @@ Also **keystrokes validations** can be added in order to increase the control ov
 
 
 ```javascript
-Validate().addLive(role, target);
+//Validate().addLive(role, target);
 
 Validate().addLive('numeric', 'validate-me'); // e.g.: <input type="text" class="validate-me">
 ```

@@ -180,6 +180,8 @@ validate.addRule('isPair',
 
 // Después podemos ejecutar las validaciones
 validate.itsOk();
+
+validate.reset(); // Reinicia todas las validaciones y mensajes, si así lo requerimos
 ```
 
 Ahora en `HTML` podemos asignar las reglas personalizadas como lo hicimos antes `data-nombre-regla`:
@@ -200,6 +202,7 @@ También se pueden agregar validaciones de **pulsaciones de teclas**, para que s
 
 ```javascript
 // Validate().addLive(role, target);
+// También podemos usar la instancia anterior, ej: validate.addLive(role, target)
 
 Validate().addLive('numeric', 'validame'); // Ej: <input type="text" class="validame">
 ```
