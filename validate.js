@@ -251,6 +251,10 @@ var Validate = function (user_options) {
 		},
 		itsOk: function () {
 			return itsOk();
+		},
+		reset: function () {
+			document.querySelectorAll(target).forEach(function (e) { e.classList.remove(_warn_class); });
+			document.querySelectorAll(warn_description_class).forEach(function (e) { e.parentNode.removeChild(e); });
 		}
 	};
 
