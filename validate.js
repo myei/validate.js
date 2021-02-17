@@ -88,9 +88,12 @@ var Validate = function (user_options) {
 		pattern: 'Esto no cumple con el patrón especificado: '
 	}, _this = this,
 
-	warn_class = '.validate-warn', _warn_class = warn_class.substr(1),
-	warn_description_class = '.validate-warn-description', _warn_description_class = warn_description_class.substr(1),
-	target = 'input, select, textarea', target_req = 'input[required], select[required], textarea[required]',
+	selectors = {
+		warn: 'validate-warn',
+		description: 'validate-warn-description',
+		styles: 'validate-styles',
+		target: 'input,select,textarea'
+	},
 	defaultKeys = ['tab', 'backspace', 'delete', 'enter', 'home', 'end', 'pageup', 'pagedown'];
 
 
@@ -98,14 +101,16 @@ var Validate = function (user_options) {
 	var build = function (user_options) {
 		try {
 			options = Object.assign(options, user_options);
-			target = options.type === 'group' ? 
-						options.required ? '.' + options.group + '[required]' : '.' + options.group : options.required ? target_req : target;
+
+			selectors.target = options.type === 'group' ? '.' + options.group : selectors.target;
+			if (options.required) selectors.target = selectors.target.split(',').map(function(t){return t + '[required]';}).join(',');
 
 			setLang(options.lang);
-			jQuery('<style>.validate-warn { border-color: ' + options.color + ' !important; } .validate-warn-description { color: ' + options.color + ' !important; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: ' + (options.align) + '; }</style>').appendTo('head');
+			if (!jQuery('#' + selectors.styles).length)
+				jQuery('<style id="' + selectors.styles + '">.' + selectors.warn + ' { border-color: ' + options.color + ' !important; } .' + selectors.description + ' { color: ' + options.color + ' !important; font-size: 11px; font-family: Roboto, sans-serif; letter-spacing: 1px; float: ' + (options.align) + '; }</style>').appendTo('head');
 
 			if (options.realTime)
-				jQuery(target).bind('keyup change', function() { handleField(this, true); });
+				jQuery('body').on('keyup change', selectors.target, function() { handleField(this, true); });
 
 		} catch (e) {
 			if (options.debug)
@@ -117,14 +122,14 @@ var Validate = function (user_options) {
 		var status = true;
 
 		try {
-			jQuery(target).each(function(index, el) {
+			jQuery(selectors.target).each(function(index, el) {
 				if (!handleField(el))
 					status = false;
 			});
 
 		} catch (e) {
 			if (options.debug)
-				console.error('validate.js: Excepción validando con el target especificado:', target, 'e:', e.message);
+				console.error('validate.js: Excepción validando con el target especificado:', selectors.target, 'e:', e.message);
 		}
 
 		return status;
@@ -139,7 +144,7 @@ var Validate = function (user_options) {
 
 	var addWarn = function (el, show, live) {
 		if (options.warn && show) {
-			jQuery(el).addClass(_warn_class);
+			jQuery(el).addClass(selectors.warn);
 
 	      	if (options.animations && !live) {
 	        	var aux = parseInt(jQuery(el).css('margin-left'));
@@ -166,8 +171,7 @@ var Validate = function (user_options) {
 			msg += ' - ' + (el.data(error + '-msg') || options.lang[error] + (el.data(error) && el.data(error) !== '' ? el.data(error) : '')) + '<br />';
 		});
 		
-		if (!el.next(_warn_description_class).length)
-			el.after('<span class="validate-warn-description">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[this.nodeName])) + '</span>');
+		el.after('<span class="' + selectors.description + '">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[this.nodeName])) + '</span>');
 	};
 
 	var field = function (el) {
@@ -209,9 +213,9 @@ var Validate = function (user_options) {
 	};
 
 	var clean = function (el) {
-		jQuery(el).removeClass(_warn_class);
+		jQuery(el).removeClass(selectors.warn);
 
-		if (jQuery(el).next().hasClass(_warn_description_class))
+		if (jQuery(el).next().hasClass(selectors.description))
       		jQuery(el).next().remove();
 	};
 
@@ -253,8 +257,8 @@ var Validate = function (user_options) {
 			return itsOk();
 		},
 		reset: function () {
-			document.querySelectorAll(target).forEach(function (e) { e.classList.remove(_warn_class); });
-			document.querySelectorAll(warn_description_class).forEach(function (e) { e.parentNode.removeChild(e); });
+			document.querySelectorAll(selectors.target).forEach(function (e) { e.classList.remove(selectors.warn); });
+			document.querySelectorAll('.' + selectors.description).forEach(function (e) { e.parentNode.removeChild(e); });
 		}
 	};
 
