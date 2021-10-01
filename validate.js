@@ -94,7 +94,8 @@ var Validate = function (user_options) {
 		styles: 'validate-styles',
 		target: 'input,select,textarea'
 	},
-	defaultKeys = ['tab', 'backspace', 'delete', 'enter', 'home', 'end', 'pageup', 'pagedown'];
+	defaultKeys = ['tab', 'backspace', 'delete', 'enter', 'home', 'end', 'pageup', 'pagedown'],
+	select2 = 's2';
 
 
 
@@ -144,12 +145,14 @@ var Validate = function (user_options) {
 
 	var addWarn = function (el, show, live) {
 		if (options.warn && show) {
-			jQuery(el).addClass(selectors.warn);
+			var _el = jQuery(el);
+			
+			(hasData(_el, select2) ? _el.next().children().children() : _el).addClass(selectors.warn);
 
 	      	if (options.animations && !live) {
-	        	var aux = parseInt(jQuery(el).css('margin-left'));
+	        	var aux = parseInt(_el.css('margin-left'));
 
-		        jQuery(el).animate({ marginLeft: (aux - 10) + 'px' }, 100)
+		        (hasData(_el, select2) ? _el.next() : _el).animate({ marginLeft: (aux - 10) + 'px' }, 100)
 					        .animate({ marginLeft: (aux + 10) + 'px' }, 100)
 					        .animate({ marginLeft: (aux - 10) + 'px' }, 100)
 					        .animate({ marginLeft: (aux + 10) + 'px' }, 100)
@@ -171,7 +174,7 @@ var Validate = function (user_options) {
 			msg += ' - ' + (el.data(error + '-msg') || options.lang[error] + (el.data(error) && el.data(error) !== '' ? el.data(error) : '')) + '<br />';
 		});
 		
-		el.after('<span class="' + selectors.description + '">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[this.nodeName])) + '</span>');
+		(hasData(el, select2) ? el.next() : el).after('<span class="' + selectors.description + '">' + (msg.length ? msg : ' - ' + (el.data('default-msg') || options.lang[this.nodeName])) + '</span>');
 	};
 
 	var field = function (el) {
@@ -213,10 +216,11 @@ var Validate = function (user_options) {
 	};
 
 	var clean = function (el) {
-		jQuery(el).removeClass(selectors.warn);
+		var el = jQuery(el);
+		(hasData(el, select2) ? el.next().children().children() : el).removeClass(selectors.warn);
 
-		if (jQuery(el).next().hasClass(selectors.description))
-      		jQuery(el).next().remove();
+		if ((hasData(el, select2) ? el.next() : el).next().hasClass(selectors.description))
+			(hasData(el, select2) ? el.next() : el).next().remove();
 	};
 
 	var hasData = function (el, data) {

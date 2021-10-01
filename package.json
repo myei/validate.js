@@ -1,0 +1,36 @@
+{
+  "name": "myei-validatejs",
+  "version": "1.7.2",
+  "description": "A JavaScript plugin that makes easy to implement validations on a website",
+  "main": "validate.min.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "jquery": "^3.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myei/validate.js.git"
+  },
+  "keywords": [
+    "validate",
+    "js",
+    "easy-to-use",
+    "easy-to-implement",
+    "validations",
+    "reusable"
+  ],
+  "author": {
+    "name": "myei",
+    "url": "https://github.com/myei/"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/myei/validate.js/issues"
+  },
+  "homepage": "https://github.com/myei/validate.js#readme"
+}

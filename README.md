@@ -140,6 +140,11 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 <input type="text" name="nombres" data-min="3" data-letters-spaces />
 
 <textarea data-min="2" data-max="140" data-numbers />
+
+<!-- Cuando se use Select2 -->
+<select class="select2-class" data-s2>
+  <!-- ... -->
+</select>
 ```
 
 > Las ```reglas``` pueden ser usadas en conjunto y las disponibles son:
@@ -155,6 +160,7 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```url```: url ej: https://google.com
 > - ```pattern```: (string) Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
 > - ```optional```: Será ignorado mientras este vacío
+> - ```s2```: Para integrarse adecuadamente con la librería Select2
 
 ## Reglas Personalizadas:
 

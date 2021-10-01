@@ -141,6 +141,11 @@ The default validation for the specified fields is **empty**, to customize this 
 <input type="text" name="nombres" data-min="3" data-letters-spaces />
 
 <textarea data-min="2" data-max="140" data-numbers />
+
+<!-- When it's used Select2 -->
+<select class="select2-class" data-s2>
+  <!-- ... -->
+</select>
 ```
 
 > The ```rules``` can be used together and they are listed below:
@@ -156,6 +161,7 @@ The default validation for the specified fields is **empty**, to customize this 
 > - ```url```: url e.g.: https://google.com
 > - ```pattern```: (string) receives a custom regex, e.g.: ^[0-9]+$
 > - ```optional```: it will be ignored while it's empty
+> - ```s2```: In order to integrate with Select2 lib properly
 
 ## Custom rules:
 
