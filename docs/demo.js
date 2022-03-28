@@ -13,6 +13,10 @@
 		setTimeout(function() { $('.alert').fadeOut(); }, 2000);
 	});
 
+	$('.reset').click(function() {
+		validate.reset();
+	});
+
 	$('.add-field').click(function() {
 		addFields();
 	});
@@ -28,11 +32,13 @@
 	});
 
 	$('body').delegate('.toolbox .control-data', 'click', function() {
-		var target = $(this).parent().siblings('input, select, textarea'), val = !$(this).parent().siblings('input, select, textarea').data($(this).data('opt'));
+		var target = $(this).parent().siblings('input, select, textarea').get(0), val = !$(this).parent().siblings('input, select, textarea').get(0).dataset[$(this).get(0).dataset.opt];
 
 		if ($(this).hasClass('badge-primary')) {
 			endisable(this);
-			target.removeData($(this).data('opt'));
+			console.log(target.dataset);
+			delete target.dataset[dashToCamel($(this).get(0).dataset.opt)];
+			console.log(target.dataset);
 			$('.validate').trigger('click');
 			return true;
 		}
@@ -42,7 +48,7 @@
 			if (!val) return false;
 		}
 
-		target.data($(this).data('opt'), typeof val === 'string' ? val : '');
+		target.dataset[dashToCamel($(this).get(0).dataset.opt)] = typeof val === 'string' ? val : '';
 		endisable(this);
 
 		setInstance();
@@ -159,6 +165,7 @@
 						<span class="badge badge-default control join-group badge-primary">join-group</span>
 						<span class="badge badge-default control-data" data-msg="true" data-opt="optional">optional</span> <br>
 						
+						<span class="text-small pull-left">Cambiar mensaje de error:</span>
 						<span class="badge badge-default control control-data control-data-in error-msg visible" data-opt="default-msg">default-msg</span>
 						<span class="badge badge-default control control-data control-data-in error-msg min-msg" data-opt="min-msg">min-msg</span>
 						<span class="badge badge-default control control-data control-data-in error-msg max-msg" data-opt="max-msg">max-msg</span>
@@ -175,5 +182,9 @@
 					<input class="form-control validate-me" placeholder="field ` + (node + i) + `">
 				</div>
 			`);
+	}
+
+	function dashToCamel (str) {
+		return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 	}
 })();

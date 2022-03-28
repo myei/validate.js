@@ -4,14 +4,15 @@ This is a **lightweight**, **easy-to-use** plugin, which allows **customizable**
 
 Quieres ver esto en [Español](https://github.com/myei/validate.js/blob/master/README.md)?
 
+> Made on VanillaJs.
+
 ## Examples, demo and requirements:
 
 You can try the [demo](https://myei.github.io/validate.js/) with some of the features listed.
 
-This plugin requires [jQuery](https://jquery.com/download/) and if you want translations, can be integrated easily with my plugin [TranslateJs](https://github.com/myei/translate.js)
+This plugin can be integrated easily with my plugin [TranslateJs](https://github.com/myei/translate.js)
 
 ```html
-<script src="/path/to/jquery.min.js"></script>
 <script src="/path/to/translate.min.js"></script> <!-- Optional -->
 <script src="/path/to/validate.min.js"></script>
 ```
@@ -169,7 +170,7 @@ Do you need to validate another thing that it's not within the available rules? 
 
 > `callback` considerations:
 > - Receives two optional arguments `(e, arg)`:
->   - **e**: the DOM `element` as an argument (It represents: jQuery(field))
+>   - **e**: the DOM `element` as an argument (ref: [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element))
 >   - **arg**: Argument for the rule (ej: data-my-rule="arg")
 > - It must return a `boolean` value (being `true` when validation is successful)
 

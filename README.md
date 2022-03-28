@@ -4,14 +4,15 @@ Este es un plugin **ligero**, **easy-to-use**, que permite la validación **pers
 
 Wanna see this in [English](https://github.com/myei/validate.js/blob/master/README.en.md)?
 
+> Hecho en VanillaJs.
+
 ## Ejemplos de uso:
 
 Puedes probar el [demo](https://myei.github.io/validate.js/) con algunas de las funcionalidades listadas.
 
-Este plugin necesita [jQuery](https://jquery.com/download/) y se puege integrar el uso de traducciones con mi plugin [TranslateJs](https://github.com/myei/translate.js)
+Este plugin puege integrar el uso de traducciones con mi plugin [TranslateJs](https://github.com/myei/translate.js)
 
 ```html
-<script src="/path/to/jquery.min.js"></script>
 <script src="/path/to/translate.min.js"></script> <!-- Opcional -->
 <script src="/path/to/validate.min.js"></script>
 ```
@@ -168,7 +169,7 @@ Necesitas validar un caso que no existe en las reglas disponibles? No hay proble
 
 > Consideraciones del `callback`:
 > - Recibe dos parámetros opcionales `(e, arg)`:
->   - **e**: El `elemento` del DOM (representa: jQuery(campo))
+>   - **e**: El `elemento` del DOM (ref: [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element))
 >   - **arg**: Insumo adicional para la regla (ej: data-mi-rergla="insumo")
 > - Debe retornar un valor `boolean` (siendo `true` cuando la validación sea exitosa)
 

@@ -35,3 +35,20 @@
 .visible {
 	display: block;
 }
+
+.text-small {
+	font-size: small;
+	letter-spacing: 1px;
+}
+
+.pull-left {
+	float: left;
+}
+
+.control, .control-data {
+	letter-spacing: 1px;
+}
+
+.field-section {
+	margin-bottom: 10px;
+}
