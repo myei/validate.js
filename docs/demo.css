@@ -2,7 +2,12 @@
 	font-size: 2em; 
 	color: #ccc; 
 	cursor: pointer;
-	margin-top: 26px
+	margin-top: 10%;
+	margin-left: 48%;
+}
+
+.add-field:hover {
+	font-size: 2.2em;
 }
 
 .control {

@@ -8,6 +8,7 @@
 		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
 		  crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 	<link rel="stylesheet" href="demo.css">
 	<title>Validate.js</title>
 </head>
@@ -36,7 +37,92 @@
 		<hr>
 
 		<div class="row">
-			<div class="col-md-1">
+			<div class="col-md-6" id="1">
+				<div class="toolbox text-right" style="color: #ccc; cursor: pointer;">
+					<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="min">min</span>
+					<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="max">max</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="letters">letters</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="letters-spaces">letters-spaces</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="numbers">numbers</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="ip">ip</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="passwd">passwd</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="email">email</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="url">url</span>
+					<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="pattern">pattern</span> <br>
+					
+					<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
+					<span class="badge badge-default control control-live" data-opt="numeric">numeric</span> <br>
+					
+					<span class="badge badge-default control-prop" data-opt="required">required</span>
+					<span class="badge badge-default control join-group badge-primary">join-group</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="optional">optional</span>
+					<span class="badge badge-default control-data control-data-in" data-opt="dependsOn">depends-on</span> <br>
+					
+					<span class="badge badge-default control control-data control-data-in error-msg visible" data-opt="default-msg">default-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg min-msg" data-opt="min-msg">min-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg max-msg" data-opt="max-msg">max-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg letters-msg" data-opt="letters-msg">letters-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg letters-spaces-msg" data-opt="letters-spaces-msg">letters-spaces-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg numbers-msg" data-opt="numbers-msg">numbers-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg ip-msg" data-opt="ip-msg">ip-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg passwd-msg" data-opt="passwd-msg">passwd-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg email-msg" data-opt="email-msg">email-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg url-msg" data-opt="url-msg">url-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg pattern-msg" data-opt="pattern-msg">pattern-msg</span>
+				</div>
+
+				<select id="field-1" class="form-control validate-me select2" data-s2>
+					<option value="">#field-1</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select> <br>
+			</div>
+
+			<div class="col-md-6" id="2">
+				<div class="toolbox text-right" style="color: #ccc; cursor: pointer;">
+					<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="min">min</span>
+					<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="max">max</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="letters">letters</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="letters-spaces">letters-spaces</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="numbers">numbers</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="ip">ip</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="passwd">passwd</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="email">email</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="url">url</span>
+					<span class="badge badge-default control-data control-data-in" data-msg="true" data-opt="pattern">pattern</span> <br>
+					
+					<span class="badge badge-default control control-live" data-opt="alphabetic">alphabetic</span>
+					<span class="badge badge-default control control-live" data-opt="numeric">numeric</span> <br>
+					
+					<span class="badge badge-default control-prop" data-opt="required">required</span>
+					<span class="badge badge-default control join-group badge-primary">join-group</span>
+					<span class="badge badge-default control-data" data-msg="true" data-opt="optional">optional</span>
+					<span class="badge badge-default control-data control-data-in" data-msg="false" data-opt="depends-on">depends-on</span> <br>
+					
+					<span class="badge badge-default control control-data control-data-in error-msg visible" data-opt="default-msg">default-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg min-msg" data-opt="min-msg">min-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg max-msg" data-opt="max-msg">max-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg letters-msg" data-opt="letters-msg">letters-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg letters-spaces-msg" data-opt="letters-spaces-msg">letters-spaces-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg numbers-msg" data-opt="numbers-msg">numbers-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg ip-msg" data-opt="ip-msg">ip-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg passwd-msg" data-opt="passwd-msg">passwd-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg email-msg" data-opt="email-msg">email-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg url-msg" data-opt="url-msg">url-msg</span>
+					<span class="badge badge-default control control-data control-data-in error-msg pattern-msg" data-opt="pattern-msg">pattern-msg</span>
+				</div>
+
+				<select id="field-2" class="form-control validate-me">
+					<option value="">#field-2</option>
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+				</select>
+			</div>
+
+			<div class="col-md-6">
 				<i class="far fa-plus-square add-field"></i>
 			</div>
 		</div>
@@ -85,7 +171,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/myei/validate.js@master/validate.min.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/gh/myei/validate.js@master/validate.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="../validate.js"></script>
 	<script src="demo.js"></script>
 </body>
 </html>
