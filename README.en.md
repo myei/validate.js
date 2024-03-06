@@ -162,6 +162,25 @@ The default validation for the specified fields is **empty**, to customize this 
 > - ```pattern```: (string) receives a custom regex, e.g.: ^[0-9]+$
 > - ```optional```: it will be ignored while it's empty
 > - ```s2```: In order to integrate with Select2 lib properly
+> - ```depends-on```: Makes ```required``` a field based on another field value
+
+## Dependencies between fields (```depends-on```)
+Allows to condition whether a field is ```required``` or not, based on another(s) field(s) value
+
+> ```html
+>  <input type="text" class="validate-me" id="foo1"> <!-- Field that others depends -->
+>
+>  <select id="foo2" class="validate-me" data-depends-on="foo1"> <!-- This field is required if ```#foo1``` it's not empty -->
+>     <option value="">Choose</option>
+>     <option value="1">1</option>
+>     <option value="2">2</option>
+>     <option value="a">2</option>
+>  </select>
+>
+>  <input type="text" class="validate-me" id="foo3" data-depends-on="foo2[2,a]"> <!-- This field is required if the value of #foo2 is 2 or "a" -->
+>
+>  <input type="text" class="validate-me" data-depends-on="foo1|foo3[Hola mundo]"> <!-- This field is required if #foo1 is not empty or if the value of #foo3 is "Hola mundo" -->
+> ```
 
 ## Custom rules:
 
