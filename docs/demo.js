@@ -1,9 +1,10 @@
 (function(){
 	var validate;
 
-	addFields(3);
+	addFields(1);
 	setInstance();
 
+	$('.select2').select2();
 	$('.validate').click(function() {
 		if (validate.itsOk())
 			$('.good').fadeIn();
@@ -157,7 +158,9 @@
 						
 						<span class="badge badge-default control-prop" data-opt="required">required</span>
 						<span class="badge badge-default control join-group badge-primary">join-group</span>
-						<span class="badge badge-default control-data" data-msg="true" data-opt="optional">optional</span> <br>
+						<span class="badge badge-default control-data" data-msg="true" data-opt="optional">optional</span>
+						<span class="badge badge-default control-data control-data-in" data-opt="depends-on">depends-on</span> <br>
+
 						
 						<span class="badge badge-default control control-data control-data-in error-msg visible" data-opt="default-msg">default-msg</span>
 						<span class="badge badge-default control control-data control-data-in error-msg min-msg" data-opt="min-msg">min-msg</span>
@@ -172,7 +175,7 @@
 						<span class="badge badge-default control control-data control-data-in error-msg pattern-msg" data-opt="pattern-msg">pattern-msg</span>
 					</div>
 
-					<input class="form-control validate-me" placeholder="field ` + (node + i) + `">
+					<input class="form-control validate-me" placeholder="#field-` + (node + i) + `" id="field-` + (node + i) + `">
 				</div>
 			`);
 	}

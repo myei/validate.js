@@ -92,7 +92,8 @@ var Validate = function (user_options) {
 		warn: 'validate-warn',
 		description: 'validate-warn-description',
 		styles: 'validate-styles',
-		target: 'input,select,textarea'
+		target: 'input,select,textarea',
+		dependsOn: "depends-on"
 	},
 	defaultKeys = ['tab', 'backspace', 'delete', 'enter', 'home', 'end', 'pageup', 'pagedown'],
 	select2 = 's2';
@@ -123,6 +124,9 @@ var Validate = function (user_options) {
 		var status = true;
 
 		try {
+			clean();
+    		setFieldDependencies();
+
 			jQuery(selectors.target).each(function(index, el) {
 				if (!handleField(el))
 					status = false;
@@ -216,11 +220,16 @@ var Validate = function (user_options) {
 	};
 
 	var clean = function (el) {
-		var el = jQuery(el);
-		(hasData(el, select2) ? el.next().children().children() : el).removeClass(selectors.warn);
+		if (el) {
+			var el = jQuery(el);
+			(hasData(el, select2) ? el.next().children().children() : el).removeClass(selectors.warn);
 
-		if ((hasData(el, select2) ? el.next() : el).next().hasClass(selectors.description))
-			(hasData(el, select2) ? el.next() : el).next().remove();
+			if ((hasData(el, select2) ? el.next() : el).next().hasClass(selectors.description))
+          (hasData(el, select2) ? el.next() : el).next().remove();
+		} else {
+			document.querySelectorAll("." + selectors.warn).forEach((e) => e.classList.remove(selectors.warn));
+			document.querySelectorAll("." + selectors.description).forEach((e) => e.parentNode.removeChild(e));
+		}
 	};
 
 	var hasData = function (el, data) {
@@ -247,6 +256,28 @@ var Validate = function (user_options) {
 		lang[name] = message;
 	};
 
+	var setFieldDependencies = function () {
+		var fields = jQuery('.' + options.group);
+	
+		fields.each((index, field) => {
+			field = jQuery(field)
+			if (!hasData(field, selectors.dependsOn.replace(/-([a-z])/g, (g) => { return g[1].toUpperCase(); })))
+			  return;
+		
+			var targets = field.data(selectors.dependsOn).split("|");
+	
+			targets.find((target) => {
+				var _target = target.split("["),
+					valuesToCompare = _target.length > 1 ? _target[1].replace("]", "").split(",") : false,
+					value = !!document.getElementById(_target[0]) ? document.getElementById(_target[0]).value : null,
+					isRequired = !!valuesToCompare ? valuesToCompare.includes(value) : !!value;
+	
+				field.prop('required', isRequired)
+				return isRequired;
+		  });
+		});
+	  };
+
   	build(user_options);
 
 
@@ -261,8 +292,7 @@ var Validate = function (user_options) {
 			return itsOk();
 		},
 		reset: function () {
-			document.querySelectorAll(selectors.target).forEach(function (e) { e.classList.remove(selectors.warn); });
-			document.querySelectorAll('.' + selectors.description).forEach(function (e) { e.parentNode.removeChild(e); });
+			clean();
 		}
 	};
 

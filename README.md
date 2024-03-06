@@ -161,6 +161,25 @@ La validación por defecto de todos los campos especificados es **vacío**, para
 > - ```pattern```: (string) Permite proveer una expresión regular personalizada, ej: ^[0-9]+$
 > - ```optional```: Será ignorado mientras este vacío
 > - ```s2```: Para integrarse adecuadamente con la librería Select2
+> - ```depends-on```: Convierte en ```required``` el campo dependiendo si otro(s) campo(s) tiene(n) valor
+
+## Dependencia entre campos (```depends-on```)
+Permite condicionar si un campo es ```required``` basado en el valor de otro(s) campo(s)
+
+> ```html
+>  <input type="text" class="validame" id="foo1"> <!-- Campo del que depende otro -->
+>
+>  <select id="foo2" class="validame" data-depends-on="foo1"> <!-- Este campo será requerido sí ```#foo1``` no esta vacío -->
+>     <option value="">Seleccione</option>
+>     <option value="1">1</option>
+>     <option value="2">2</option>
+>     <option value="a">2</option>
+>  </select>
+>
+>  <input type="text" class="validame" id="foo3" data-depends-on="foo2[2,a]"> <!-- Requerido sí el valor de #foo2 es 2 ó "a" -->
+>
+>  <input type="text" class="validame" data-depends-on="foo1|foo3[Hola mundo]"> <!-- Requerido sí #foo1 no esta vacío ó sí el valor de #foo3 es "Hola mundo" -->
+> ```
 
 ## Reglas Personalizadas:
 
